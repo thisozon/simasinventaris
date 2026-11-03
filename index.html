@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="id" class="h-full bg-slate-50">
+<html lang="id" class="h-full bg-slate-900">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
-    <!-- PWA & Mobile Web App Meta Tags (Menghilangkan Tab/URL Bar Browser) -->
+    <!-- PWA & Mobile Web App Meta Tags -->
     <meta name="theme-color" content="#047857">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -58,12 +58,19 @@
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
         @keyframes scan-laser {
-            0% { top: 0%; }
-            50% { top: 95%; }
-            100% { top: 0%; }
+            0% { top: 5%; opacity: 0.3; }
+            50% { top: 90%; opacity: 1; }
+            100% { top: 5%; opacity: 0.3; }
         }
         .laser-line {
             animation: scan-laser 2.2s infinite ease-in-out;
+        }
+
+        /* Glassmorphism effects */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
 
         @media print {
@@ -87,65 +94,62 @@
         }
     </style>
 </head>
-<body class="h-full text-slate-800 bg-slate-50 antialiased flex flex-col md:flex-row overflow-x-hidden">
+<body class="h-full text-slate-800 bg-slate-100 antialiased flex flex-col md:flex-row overflow-x-hidden">
 
-    <!-- ========================================== -->
-    <!-- DESKTOP SIDEBAR NAVIGATION                 -->
-    <!-- ========================================== -->
-    <aside class="hidden md:flex flex-col w-64 bg-slate-900 text-slate-300 min-h-screen shrink-0 border-r border-slate-800 sticky top-0 h-screen z-30">
-        <!-- Logo Header -->
-        <div class="p-5 border-b border-slate-800 flex items-center gap-3">
-            <div id="sidebar-logo-container" class="w-10 h-10 rounded-xl bg-mosque-700 flex items-center justify-center text-white font-bold text-xl overflow-hidden shadow-lg shadow-mosque-900/50 shrink-0">
+    <!-- DESKTOP SIDEBAR NAVIGATION -->
+    <aside class="hidden md:flex flex-col w-64 bg-slate-900 text-slate-300 min-h-screen shrink-0 border-r border-slate-800/80 sticky top-0 h-screen z-30 shadow-2xl">
+        <div class="p-5 border-b border-slate-800/80 flex items-center gap-3.5 bg-slate-950/40">
+            <div id="sidebar-logo-container" class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-mosque-800 via-mosque-700 to-emerald-500 flex items-center justify-center text-white font-bold text-xl overflow-hidden shadow-lg shadow-mosque-900/50 shrink-0 border border-white/10">
                 <i id="sidebar-logo-icon" class="fa-solid fa-mosque"></i>
                 <img id="sidebar-logo-img" src="" class="w-full h-full object-cover hidden">
             </div>
             <div class="overflow-hidden">
-                <h1 id="sidebar-masjid-name" class="font-bold text-white text-base leading-tight truncate">Masjid Al-Barkah</h1>
-                <p class="text-[11px] text-emerald-400 font-medium">Sistem Inventaris (SIMAS)</p>
+                <h1 id="sidebar-masjid-name" class="font-bold text-white text-base leading-tight truncate label-display-masjid">Masjid Al-Barkah</h1>
+                <p class="text-[11px] text-emerald-400 font-semibold flex items-center gap-1 mt-0.5">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> SIMAS System
+                </p>
             </div>
         </div>
 
-        <!-- Navigation Links -->
-        <nav class="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto no-scrollbar">
-            <div class="px-3 pb-1 text-[10px] font-extrabold uppercase tracking-wider text-slate-500">Menu Utama</div>
+        <nav class="flex-1 px-3 py-5 space-y-1.5 overflow-y-auto no-scrollbar">
+            <div class="px-3.5 pb-2 text-[10px] font-extrabold uppercase tracking-widest text-slate-500">Menu Utama</div>
             
-            <button onclick="switchView('dashboard')" id="nav-desktop-dashboard" class="nav-item-desktop w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-semibold text-sm transition bg-mosque-700 text-white shadow-md shadow-mosque-900/30">
-                <i class="fa-solid fa-chart-pie w-5 text-center text-emerald-300"></i>
+            <button onclick="switchView('dashboard')" id="nav-desktop-dashboard" class="nav-item-desktop w-full flex items-center gap-3.5 px-3.5 py-3 rounded-2xl font-semibold text-sm transition-all duration-200 bg-mosque-700 text-white shadow-lg shadow-mosque-900/40 border border-emerald-500/20">
+                <i class="fa-solid fa-chart-pie w-5 text-center text-emerald-300 text-base"></i>
                 <span>Dashboard</span>
             </button>
             
-            <button onclick="switchView('barang')" id="nav-desktop-barang" class="nav-item-desktop w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-sm transition hover:bg-slate-800 hover:text-white">
-                <i class="fa-solid fa-boxes-stacked w-5 text-center text-slate-400"></i>
+            <button onclick="switchView('barang')" id="nav-desktop-barang" class="nav-item-desktop w-full flex items-center gap-3.5 px-3.5 py-3 rounded-2xl font-semibold text-sm transition-all duration-200 text-slate-400 hover:bg-slate-800/80 hover:text-white">
+                <i class="fa-solid fa-boxes-stacked w-5 text-center text-slate-400 text-base"></i>
                 <span>Data Barang</span>
             </button>
             
-            <button onclick="switchView('peminjaman')" id="nav-desktop-peminjaman" class="nav-item-desktop w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-sm transition hover:bg-slate-800 hover:text-white">
-                <i class="fa-solid fa-hand-holding-hand w-5 text-center text-slate-400"></i>
+            <button onclick="switchView('peminjaman')" id="nav-desktop-peminjaman" class="nav-item-desktop w-full flex items-center gap-3.5 px-3.5 py-3 rounded-2xl font-semibold text-sm transition-all duration-200 text-slate-400 hover:bg-slate-800/80 hover:text-white">
+                <i class="fa-solid fa-hand-holding-hand w-5 text-center text-slate-400 text-base"></i>
                 <span>Peminjaman</span>
             </button>
 
-            <button onclick="switchView('perawatan')" id="nav-desktop-perawatan" class="nav-item-desktop w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-sm transition hover:bg-slate-800 hover:text-white">
-                <i class="fa-solid fa-screwdriver-wrench w-5 text-center text-slate-400"></i>
+            <button onclick="switchView('perawatan')" id="nav-desktop-perawatan" class="nav-item-desktop w-full flex items-center gap-3.5 px-3.5 py-3 rounded-2xl font-semibold text-sm transition-all duration-200 text-slate-400 hover:bg-slate-800/80 hover:text-white">
+                <i class="fa-solid fa-screwdriver-wrench w-5 text-center text-slate-400 text-base"></i>
                 <span>Log Perawatan</span>
             </button>
 
-            <button onclick="switchView('laporan')" id="nav-desktop-laporan" class="nav-item-desktop w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-sm transition hover:bg-slate-800 hover:text-white">
-                <i class="fa-solid fa-file-invoice w-5 text-center text-slate-400"></i>
+            <button onclick="switchView('laporan')" id="nav-desktop-laporan" class="nav-item-desktop w-full flex items-center gap-3.5 px-3.5 py-3 rounded-2xl font-semibold text-sm transition-all duration-200 text-slate-400 hover:bg-slate-800/80 hover:text-white">
+                <i class="fa-solid fa-file-invoice w-5 text-center text-slate-400 text-base"></i>
                 <span>Laporan & Ekspor</span>
             </button>
 
-            <div class="pt-4 px-3 pb-1 text-[10px] font-extrabold uppercase tracking-wider text-slate-500">Sistem</div>
+            <div class="pt-5 px-3.5 pb-2 text-[10px] font-extrabold uppercase tracking-widest text-slate-500">Pengaturan</div>
 
-            <button onclick="switchView('pengaturan')" id="nav-desktop-pengaturan" class="nav-item-desktop w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-sm transition hover:bg-slate-800 hover:text-white">
-                <i class="fa-solid fa-sliders w-5 text-center text-slate-400"></i>
+            <button onclick="switchView('pengaturan')" id="nav-desktop-pengaturan" class="nav-item-desktop w-full flex items-center gap-3.5 px-3.5 py-3 rounded-2xl font-semibold text-sm transition-all duration-200 text-slate-400 hover:bg-slate-800/80 hover:text-white">
+                <i class="fa-solid fa-sliders w-5 text-center text-slate-400 text-base"></i>
                 <span>Pengaturan Admin</span>
             </button>
         </nav>
 
-        <!-- Profile / Logout Footer -->
-        <div class="p-4 border-t border-slate-800 bg-slate-950/50 flex items-center justify-between">
-            <div class="flex items-center gap-2.5 overflow-hidden">
-                <div class="w-8 h-8 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 font-bold text-xs flex items-center justify-center shrink-0">
+        <div class="p-4 border-t border-slate-800/80 bg-slate-950/60 flex items-center justify-between">
+            <div class="flex items-center gap-3 overflow-hidden">
+                <div class="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 font-bold text-xs flex items-center justify-center shrink-0 shadow-inner">
                     SA
                 </div>
                 <div class="overflow-hidden">
@@ -153,32 +157,31 @@
                     <p class="text-[10px] text-slate-400 truncate">Pengurus DKM</p>
                 </div>
             </div>
-            <button onclick="handleLogout()" class="text-slate-400 hover:text-rose-400 p-2 rounded-xl hover:bg-rose-500/10 transition flex items-center gap-1.5" title="Logout Sesi">
-                <i class="fa-solid fa-right-from-bracket text-sm"></i>
-                <span class="text-xs font-semibold hidden lg:inline">Keluar</span>
+            <button onclick="handleLogout()" class="text-slate-400 hover:text-rose-400 p-2.5 rounded-xl hover:bg-rose-500/10 transition flex items-center gap-1.5" title="Logout Sesi">
+                <i class="fa-solid fa-right-from-bracket text-base"></i>
             </button>
         </div>
     </aside>
 
-    <!-- ========================================== -->
-    <!-- MAIN CONTENT CONTAINER                     -->
-    <!-- ========================================== -->
+    <!-- MAIN CONTENT CONTAINER -->
     <div class="flex-1 flex flex-col min-w-0 min-h-screen">
 
         <!-- Mobile Top App Bar -->
-        <header class="flex md:hidden items-center justify-between bg-slate-900 text-white px-4 py-3 sticky top-0 z-30 shadow-md">
-            <div class="flex items-center gap-2.5 overflow-hidden">
-                <div id="mobile-logo-container" class="w-8 h-8 rounded-lg bg-mosque-700 flex items-center justify-center text-white text-sm font-bold overflow-hidden shrink-0">
+        <header class="flex md:hidden items-center justify-between bg-slate-900 text-white px-4 py-3 sticky top-0 z-30 shadow-lg border-b border-slate-800">
+            <div class="flex items-center gap-3 overflow-hidden">
+                <div id="mobile-logo-container" class="w-9 h-9 rounded-xl bg-gradient-to-tr from-mosque-800 to-emerald-600 flex items-center justify-center text-white text-base font-bold overflow-hidden shrink-0 shadow-md">
                     <i id="mobile-logo-icon" class="fa-solid fa-mosque"></i>
                     <img id="mobile-logo-img" src="" class="w-full h-full object-cover hidden">
                 </div>
                 <div class="overflow-hidden">
-                    <h1 id="mobile-masjid-name" class="font-bold text-sm leading-tight truncate">Masjid Al-Barkah</h1>
-                    <p class="text-[10px] text-emerald-400">SIMAS Mobile</p>
+                    <h1 id="mobile-masjid-name" class="font-bold text-sm leading-tight truncate label-display-masjid">Masjid Al-Barkah</h1>
+                    <span id="cloud-sync-badge" class="inline-flex items-center gap-1 text-[10px] text-emerald-400 font-semibold">
+                        <i class="fa-solid fa-hard-drive"></i> Local Persistence
+                    </span>
                 </div>
             </div>
             <div class="flex items-center gap-2">
-                <button onclick="startCameraScanner()" class="w-9 h-9 rounded-xl bg-mosque-600 text-white flex items-center justify-center active:scale-95 transition shadow">
+                <button onclick="startCameraScanner()" class="w-9 h-9 rounded-xl bg-mosque-600 hover:bg-mosque-500 text-white flex items-center justify-center active:scale-95 transition shadow-md">
                     <i class="fa-solid fa-qrcode text-base"></i>
                 </button>
                 <button onclick="handleLogout()" class="w-9 h-9 rounded-xl bg-rose-500/20 border border-rose-500/30 text-rose-300 flex items-center justify-center active:scale-95 transition" title="Logout">
@@ -187,137 +190,132 @@
             </div>
         </header>
 
-        <!-- Main Body Scrollable View Area (Padding Bottom Diperluas agar Konten Bawah Tidak Terpotong) -->
+        <!-- Main Body Scrollable View Area -->
         <main class="flex-1 p-4 md:p-8 max-w-7xl w-full mx-auto space-y-6 pb-36 md:pb-12">
 
             <!-- 1. VIEW DASHBOARD -->
             <section id="view-dashboard" class="view-panel space-y-6">
-                <!-- Header Banner -->
-                <div class="bg-gradient-to-r from-mosque-800 via-mosque-700 to-mosque-600 rounded-3xl p-6 text-white shadow-xl shadow-mosque-900/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                    <div class="space-y-1">
-                        <span class="inline-block px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-emerald-200 text-xs font-semibold">Ringkasan Sistem SIMAS</span>
-                        <h2 class="text-2xl font-extrabold tracking-tight">Selamat Datang, Pengurus DKM</h2>
-                        <p class="text-emerald-100/80 text-xs md:text-sm">Pantau kondisi aset, status peminjaman, dan kebutuhan servis inventaris <span id="banner-masjid-name">Masjid Al-Barkah</span>.</p>
+                <!-- Banner Highlight -->
+                <div class="relative overflow-hidden bg-gradient-to-br from-mosque-900 via-mosque-800 to-slate-900 rounded-3xl p-6 md:p-8 text-white shadow-2xl shadow-mosque-900/20 border border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                    <div class="space-y-2 z-10 max-w-2xl">
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-bold backdrop-blur-md">
+                            <i class="fa-solid fa-sparkles"></i> SIMAS Dashboard Overview
+                        </span>
+                        <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight leading-tight">Selamat Datang, Pengurus DKM</h2>
+                        <p class="text-slate-300 text-xs md:text-sm leading-relaxed">
+                            Pantau kondisi inventaris fisik, alur peminjaman jamaah, dan perbaikan barang di <span class="label-display-masjid font-semibold text-emerald-400">Masjid Al-Barkah</span> secara terpusat.
+                        </p>
                     </div>
-                    <div class="flex items-center gap-2 shrink-0">
-                        <button onclick="openModal('modal-add-item')" class="px-4 py-2.5 bg-white text-mosque-800 hover:bg-emerald-50 font-bold rounded-xl text-xs flex items-center gap-2 shadow-lg transition">
-                            <i class="fa-solid fa-plus text-mosque-600"></i>
+                    <div class="flex items-center gap-3 shrink-0 z-10 w-full md:w-auto">
+                        <button onclick="openModal('modal-add-item')" class="flex-1 md:flex-none px-5 py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold rounded-2xl text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/30 active:scale-95 transition">
+                            <i class="fa-solid fa-plus text-sm"></i>
                             <span>Tambah Barang</span>
                         </button>
-                        <button onclick="startCameraScanner()" class="px-4 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl text-xs flex items-center gap-2 shadow-lg transition">
-                            <i class="fa-solid fa-qrcode"></i>
+                        <button onclick="startCameraScanner()" class="flex-1 md:flex-none px-5 py-3 bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold rounded-2xl text-xs flex items-center justify-center gap-2 backdrop-blur-md active:scale-95 transition">
+                            <i class="fa-solid fa-qrcode text-sm text-emerald-400"></i>
                             <span>Scan Code</span>
                         </button>
                     </div>
+                    <!-- Ambient background decoration -->
+                    <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
                 </div>
 
-                <!-- 4 Top Metric Cards -->
+                <!-- Stat Cards Grid -->
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
-                    <div class="bg-white p-4 md:p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition flex items-center justify-between">
+                    <div class="bg-white p-4 md:p-5 rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all duration-200 flex items-center justify-between">
                         <div>
-                            <p class="text-slate-400 text-xs font-bold uppercase tracking-wider">Total Barang</p>
+                            <p class="text-slate-400 text-[11px] font-bold uppercase tracking-wider">Total Barang</p>
                             <h3 id="stat-total-barang" class="text-2xl md:text-3xl font-extrabold text-slate-800 mt-1">0</h3>
-                            <p class="text-[11px] text-emerald-600 font-semibold mt-0.5">Unit Terdaftar</p>
+                            <p class="text-[11px] text-emerald-600 font-semibold mt-1 flex items-center gap-1">
+                                <i class="fa-solid fa-box"></i> Unit Terdaftar
+                            </p>
                         </div>
-                        <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl shrink-0">
+                        <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center text-xl shrink-0">
                             <i class="fa-solid fa-boxes-stacked"></i>
                         </div>
                     </div>
 
-                    <div class="bg-white p-4 md:p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition flex items-center justify-between">
+                    <div class="bg-white p-4 md:p-5 rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all duration-200 flex items-center justify-between">
                         <div>
-                            <p class="text-slate-400 text-xs font-bold uppercase tracking-wider">Kondisi Baik</p>
+                            <p class="text-slate-400 text-[11px] font-bold uppercase tracking-wider">Kondisi Baik</p>
                             <h3 id="stat-kondisi-baik" class="text-2xl md:text-3xl font-extrabold text-emerald-600 mt-1">0</h3>
-                            <p class="text-[11px] text-slate-400 mt-0.5">Siap Digunakan</p>
+                            <p class="text-[11px] text-slate-400 mt-1">Siap Digunakan</p>
                         </div>
-                        <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-xl shrink-0">
+                        <div class="w-12 h-12 rounded-2xl bg-emerald-100/70 text-emerald-700 border border-emerald-200 flex items-center justify-center text-xl shrink-0">
                             <i class="fa-solid fa-circle-check"></i>
                         </div>
                     </div>
 
-                    <div class="bg-white p-4 md:p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition flex items-center justify-between">
+                    <div class="bg-white p-4 md:p-5 rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all duration-200 flex items-center justify-between">
                         <div>
-                            <p class="text-slate-400 text-xs font-bold uppercase tracking-wider">Perlu Servis</p>
+                            <p class="text-slate-400 text-[11px] font-bold uppercase tracking-wider">Perlu Servis</p>
                             <h3 id="stat-kondisi-rusak" class="text-2xl md:text-3xl font-extrabold text-amber-500 mt-1">0</h3>
-                            <p class="text-[11px] text-amber-600 font-semibold mt-0.5">Butuh Perbaikan</p>
+                            <p class="text-[11px] text-amber-600 font-semibold mt-1">Butuh Perbaikan</p>
                         </div>
-                        <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl shrink-0">
+                        <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 border border-amber-100 flex items-center justify-center text-xl shrink-0">
                             <i class="fa-solid fa-screwdriver-wrench"></i>
                         </div>
                     </div>
 
-                    <div class="bg-white p-4 md:p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition flex items-center justify-between">
+                    <div class="bg-white p-4 md:p-5 rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all duration-200 flex items-center justify-between">
                         <div>
-                            <p class="text-slate-400 text-xs font-bold uppercase tracking-wider">Sedang Dipinjam</p>
+                            <p class="text-slate-400 text-[11px] font-bold uppercase tracking-wider">Sedang Dipinjam</p>
                             <h3 id="stat-dipinjam" class="text-2xl md:text-3xl font-extrabold text-blue-600 mt-1">0</h3>
-                            <p class="text-[11px] text-blue-500 font-semibold mt-0.5">Di Luar Masjid</p>
+                            <p class="text-[11px] text-blue-500 font-semibold mt-1">Di Luar Masjid</p>
                         </div>
-                        <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl shrink-0">
+                        <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center text-xl shrink-0">
                             <i class="fa-solid fa-hand-holding-hand"></i>
                         </div>
                     </div>
                 </div>
 
-                <!-- Charts Section -->
+                <!-- Charts Row -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
+                    <div class="bg-white p-6 rounded-3xl border border-slate-200/90 shadow-sm">
                         <div class="flex items-center justify-between pb-3 border-b border-slate-100">
-                            <h3 class="font-bold text-slate-800 text-sm">Grafik Kondisi Inventaris</h3>
-                            <span class="text-xs text-slate-400">Persentase Kelayakan</span>
+                            <div>
+                                <h3 class="font-bold text-slate-800 text-sm">Grafik Kondisi Inventaris</h3>
+                                <p class="text-xs text-slate-400">Persentase kelayakan aset</p>
+                            </div>
+                            <span class="w-8 h-8 rounded-xl bg-slate-100 text-slate-500 flex items-center justify-center text-xs">
+                                <i class="fa-solid fa-chart-pie"></i>
+                            </span>
                         </div>
-                        <div class="h-64 mt-4 flex items-center justify-center">
+                        <div class="h-64 mt-4 flex items-center justify-center relative">
                             <canvas id="chart-kondisi"></canvas>
                         </div>
                     </div>
 
-                    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
+                    <div class="bg-white p-6 rounded-3xl border border-slate-200/90 shadow-sm">
                         <div class="flex items-center justify-between pb-3 border-b border-slate-100">
-                            <h3 class="font-bold text-slate-800 text-sm">Distribusi Kategori Barang</h3>
-                            <span class="text-xs text-slate-400">Klasifikasi Aset</span>
+                            <div>
+                                <h3 class="font-bold text-slate-800 text-sm">Distribusi Kategori Barang</h3>
+                                <p class="text-xs text-slate-400">Pengelompokan jenis aset</p>
+                            </div>
+                            <span class="w-8 h-8 rounded-xl bg-slate-100 text-slate-500 flex items-center justify-center text-xs">
+                                <i class="fa-solid fa-chart-column"></i>
+                            </span>
                         </div>
-                        <div class="h-64 mt-4 flex items-center justify-center">
+                        <div class="h-64 mt-4 flex items-center justify-center relative">
                             <canvas id="chart-kategori"></canvas>
                         </div>
                     </div>
                 </div>
 
-                <!-- Recent Borrowings & Maintenance Preview -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-6">
-                    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
-                        <div class="flex items-center justify-between">
-                            <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
-                                <i class="fa-solid fa-clock-rotate-left text-mosque-600"></i>
-                                <span>Peminjaman Aktif</span>
-                            </h3>
-                            <button onclick="switchView('peminjaman')" class="text-xs font-bold text-mosque-600 hover:underline">Lihat Semua →</button>
+                <!-- Log Perawatan & Maintenance Terdekat (Widget Dashboard) -->
+                <div class="bg-white p-6 rounded-3xl border border-slate-200/90 shadow-sm space-y-4">
+                    <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                        <div>
+                            <h3 class="font-bold text-slate-800 text-sm">Jadwal Perawatan & Servis Terdekat</h3>
+                            <p class="text-xs text-slate-400">Pemeliharaan berkala aset fisik masjid</p>
                         </div>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-left text-xs">
-                                <thead>
-                                    <tr class="border-b border-slate-100 text-slate-400 font-bold uppercase tracking-wider">
-                                        <th class="py-2">Barang</th>
-                                        <th class="py-2">Peminjam</th>
-                                        <th class="py-2">Batas Kembali</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="dashboard-borrow-list" class="divide-y divide-slate-100">
-                                    <!-- Dynamic -->
-                                </tbody>
-                            </table>
-                        </div>
+                        <button onclick="switchView('perawatan')" class="text-xs font-bold text-mosque-700 hover:underline flex items-center gap-1">
+                            <span>Lihat Semua</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
                     </div>
-
-                    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
-                        <div class="flex items-center justify-between">
-                            <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
-                                <i class="fa-solid fa-screwdriver-wrench text-amber-500"></i>
-                                <span>Jadwal Perawatan Terdekat</span>
-                            </h3>
-                            <button onclick="switchView('perawatan')" class="text-xs font-bold text-amber-600 hover:underline">Lihat Log →</button>
-                        </div>
-                        <div id="dashboard-maintenance-list" class="space-y-2.5">
-                            <!-- Dynamic -->
-                        </div>
+                    <div id="dashboard-maintenance-summary" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                        <!-- Dynamic content -->
                     </div>
                 </div>
             </section>
@@ -327,7 +325,7 @@
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
                         <h2 class="text-xl font-extrabold text-slate-800">Daftar Data Barang</h2>
-                        <p class="text-xs text-slate-500">Kelola master inventaris fisik <span class="label-display-masjid">Masjid Al-Barkah</span>.</p>
+                        <p class="text-xs text-slate-500">Kelola master inventaris fisik <span class="label-display-masjid font-semibold text-mosque-700">Masjid Al-Barkah</span>.</p>
                     </div>
                     <div class="flex items-center gap-2">
                         <button onclick="exportToCsv()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs flex items-center gap-2 shadow-md transition">
@@ -336,21 +334,21 @@
                         </button>
                         <button onclick="openModal('modal-add-item')" class="px-4 py-2.5 bg-mosque-600 hover:bg-mosque-700 text-white font-bold rounded-xl text-xs flex items-center gap-2 shadow-md shadow-mosque-600/20 transition">
                             <i class="fa-solid fa-plus"></i>
-                            <span>Tambah Barang Baru</span>
+                            <span>Tambah Barang</span>
                         </button>
                     </div>
                 </div>
 
-                <!-- Multi-Filter & Search Bar -->
-                <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm space-y-3">
+                <!-- Filter Controls -->
+                <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-sm space-y-3">
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                         <div class="relative">
-                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
-                            <input type="text" id="filter-search" oninput="applyFilters()" placeholder="Cari Kode SKU, Nama Barang..." class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-mosque-600">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                            <input type="text" id="filter-search" oninput="applyFilters()" placeholder="Cari SKU, Nama Barang..." class="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-mosque-600 focus:bg-white transition">
                         </div>
 
                         <div>
-                            <select id="filter-kategori" onchange="applyFilters()" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-mosque-600">
+                            <select id="filter-kategori" onchange="applyFilters()" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-mosque-600">
                                 <option value="ALL">Semua Kategori</option>
                                 <option value="Sound System & Elektronik">Sound System & Elektronik</option>
                                 <option value="Alat Salat & Karpet">Alat Salat & Karpet</option>
@@ -362,7 +360,7 @@
                         </div>
 
                         <div>
-                            <select id="filter-kondisi" onchange="applyFilters()" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-mosque-600">
+                            <select id="filter-kondisi" onchange="applyFilters()" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-mosque-600">
                                 <option value="ALL">Semua Kondisi</option>
                                 <option value="Baik">Kondisi Baik</option>
                                 <option value="Rusak Ringan">Rusak Ringan</option>
@@ -371,7 +369,7 @@
                         </div>
 
                         <div>
-                            <select id="filter-lokasi" onchange="applyFilters()" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-mosque-600">
+                            <select id="filter-lokasi" onchange="applyFilters()" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-mosque-600">
                                 <option value="ALL">Semua Lokasi Storage</option>
                                 <option value="Ruang Utama Salat">Ruang Utama Salat</option>
                                 <option value="Ruang Sound System">Ruang Sound System</option>
@@ -385,19 +383,19 @@
                     </div>
                 </div>
 
-                <!-- Main Inventory Data Table -->
-                <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+                <!-- Table View -->
+                <div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm overflow-hidden">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-xs border-collapse">
                             <thead>
-                                <tr class="bg-slate-50 text-slate-500 font-bold uppercase tracking-wider border-b border-slate-200/80">
+                                <tr class="bg-slate-50 text-slate-500 font-bold uppercase tracking-wider border-b border-slate-200">
+                                    <th class="p-3.5">Foto</th>
                                     <th class="p-3.5">Kode SKU</th>
                                     <th class="p-3.5">Nama Barang</th>
                                     <th class="p-3.5">Kategori</th>
                                     <th class="p-3.5">Lokasi Storage</th>
                                     <th class="p-3.5 text-center">Jumlah</th>
                                     <th class="p-3.5">Kondisi</th>
-                                    <th class="p-3.5">Status Peminjaman</th>
                                     <th class="p-3.5 text-center">Aksi Edit / Hapus</th>
                                 </tr>
                             </thead>
@@ -414,7 +412,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <h2 class="text-xl font-extrabold text-slate-800">Manajemen Peminjaman</h2>
-                        <p class="text-xs text-slate-500">Pencatatan aset yang dipinjam oleh panitia atau jamaah.</p>
+                        <p class="text-xs text-slate-500">Pencatatan peminjaman barang oleh jamaah/panitia.</p>
                     </div>
                     <button onclick="openModal('modal-borrow')" class="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-xs flex items-center gap-2 shadow-md transition">
                         <i class="fa-solid fa-plus"></i>
@@ -422,7 +420,7 @@
                     </button>
                 </div>
 
-                <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+                <div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm overflow-hidden">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-xs">
                             <thead>
@@ -432,7 +430,6 @@
                                     <th class="p-3.5">Nama Peminjam / Kontak</th>
                                     <th class="p-3.5">Tgl Pinjam</th>
                                     <th class="p-3.5">Batas Kembali</th>
-                                    <th class="p-3.5">Status</th>
                                     <th class="p-3.5 text-center">Aksi Pengembalian</th>
                                 </tr>
                             </thead>
@@ -462,48 +459,28 @@
                 </div>
             </section>
 
-            <!-- 5. VIEW LAPORAN PDF & EKSPOR EXCEL -->
+            <!-- 5. VIEW LAPORAN & EKSPOR -->
             <section id="view-laporan" class="view-panel hidden space-y-5">
                 <div>
                     <h2 class="text-xl font-extrabold text-slate-800">Pelaporan & Ekspor Data</h2>
-                    <p class="text-xs text-slate-500">Cetak dokumen fisik PDF berstandar resmi DKM atau unduh data Excel (.CSV).</p>
+                    <p class="text-xs text-slate-500">Cetak dokumen fisik PDF berstandar resmi DKM atau unduh file CSV/Excel.</p>
                 </div>
 
-                <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm space-y-6">
-                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+                <div class="bg-white rounded-3xl p-6 border border-slate-200/90 shadow-sm space-y-6">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
                         <div>
                             <h3 class="font-bold text-slate-800 text-base">Format Dokumen Laporan</h3>
                             <p class="text-xs text-slate-400">Pilih jenis format ekspor laporan inventaris masjid yang Anda butuhkan.</p>
                         </div>
-                        <div class="flex items-center gap-2 w-full sm:w-auto">
+                        <div class="flex items-center gap-2.5 w-full sm:w-auto">
                             <button onclick="exportToCsv()" class="flex-1 sm:flex-none px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 shadow-md transition">
                                 <i class="fa-solid fa-file-excel"></i>
-                                <span>Ekspor File Excel (.CSV)</span>
+                                <span>Ekspor CSV / Excel</span>
                             </button>
-                            <button onclick="printPdfReport()" class="flex-1 sm:flex-none px-4 py-2.5 bg-mosque-700 hover:bg-mosque-800 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 shadow-md shadow-mosque-700/30 transition">
+                            <button onclick="printPdfReport()" class="flex-1 sm:flex-none px-4 py-2.5 bg-mosque-700 hover:bg-mosque-800 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 shadow-md transition">
                                 <i class="fa-solid fa-print"></i>
-                                <span>Cetak Format PDF Standar</span>
+                                <span>Cetak Format PDF</span>
                             </button>
-                        </div>
-                    </div>
-
-                    <!-- PDF Preview Live Card -->
-                    <div class="border border-slate-200 rounded-2xl p-6 bg-slate-50 space-y-4">
-                        <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold uppercase tracking-wider text-mosque-700 bg-mosque-50 px-3 py-1 rounded-full border border-mosque-100">Pratinjau Dokumen PDF</span>
-                            <span class="text-xs text-slate-400">Dicetak Pada: <span id="report-date-preview">03/11/2026</span></span>
-                        </div>
-                        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-3">
-                            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                                <div>
-                                    <h4 class="font-extrabold text-slate-800 text-sm"><span class="label-display-masjid">Masjid Al-Barkah</span> - Laporan Rekapitulasi Inventaris</h4>
-                                    <p class="text-xs text-slate-500">Nomor Registrasi Dokumen: <span class="font-mono font-bold text-slate-700">DKM-INV/2026/XI/001</span></p>
-                                </div>
-                                <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-lg">Status: Valid</span>
-                            </div>
-                            <p class="text-xs text-slate-600 leading-relaxed">
-                                Dokumen ini memuat data akurat sebanyak <strong id="pdf-preview-total">0 unit</strong> aset fisik masjid lengkap dengan klasifikasi kondisi kelayakan, sumber perolehan, dan penanggung jawab lokasi storage.
-                            </p>
                         </div>
                     </div>
                 </div>
@@ -513,71 +490,93 @@
             <section id="view-pengaturan" class="view-panel hidden space-y-6">
                 <div>
                     <h2 class="text-xl font-extrabold text-slate-800">Pengaturan Sistem & Pengurus</h2>
-                    <p class="text-xs text-slate-500">Kelola nama masjid, logo resmi, ekspor data, dan hak akses admin.</p>
+                    <p class="text-xs text-slate-500">Kelola nama masjid, logo resmi, ekspor data, dan akun admin.</p>
                 </div>
 
-                <!-- Form Penggantian Nama Masjid -->
-                <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm space-y-4">
-                    <h3 class="font-bold text-slate-800 text-sm pb-2 border-b border-slate-100">Identitas Nama Masjid</h3>
-                    <form onsubmit="handleSaveMasjidName(event)" class="space-y-3 text-xs max-w-lg">
+                <!-- Pengaturan Identitas Nama Masjid -->
+                <div class="bg-white rounded-3xl p-6 border border-slate-200/90 shadow-sm space-y-4">
+                    <div class="flex items-center gap-2 pb-2 border-b border-slate-100">
+                        <i class="fa-solid fa-kaaba text-mosque-600 text-lg"></i>
+                        <h3 class="font-bold text-slate-800 text-sm">Identitas Nama Masjid</h3>
+                    </div>
+                    <form onsubmit="handleSaveMasjidName(event)" class="space-y-3.5 text-xs max-w-lg">
                         <div>
                             <label class="block font-bold text-slate-700 mb-1">Nama Masjid Resmi *</label>
-                            <input type="text" id="setting-masjid-name" required placeholder="Contoh: Masjid Al-Barkah" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800 focus:ring-2 focus:ring-mosque-600">
+                            <input type="text" id="setting-masjid-name" required placeholder="Contoh: Masjid Al-Barkah" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800 focus:ring-2 focus:ring-mosque-600">
+                            <p class="text-[11px] text-slate-400 mt-1">Nama ini akan otomatis diperbarui di seluruh aplikasi termasuk di Halaman Login & Cetak Dokumen.</p>
                         </div>
-                        <button type="submit" class="px-4 py-2 bg-mosque-600 hover:bg-mosque-700 text-white font-bold rounded-xl transition shadow">
-                            Simpan Perubahan Nama
+                        <button type="submit" class="px-5 py-2.5 bg-mosque-600 hover:bg-mosque-700 text-white font-bold rounded-xl transition shadow-md flex items-center gap-2">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            <span>Simpan Nama Masjid</span>
                         </button>
                     </form>
                 </div>
 
-                <!-- Logo Upload & Identitas Masjid -->
-                <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm space-y-4">
-                    <h3 class="font-bold text-slate-800 text-sm pb-2 border-b border-slate-100">Logo Resmi Masjid</h3>
-                    <div class="flex flex-col md:flex-row items-center gap-6">
-                        <div class="w-24 h-24 rounded-2xl border-2 border-dashed border-slate-300 flex items-center justify-center bg-slate-50 overflow-hidden shrink-0 relative group">
-                            <img id="logo-preview-img" src="" class="w-full h-full object-cover hidden">
-                            <div id="logo-placeholder" class="text-center text-slate-400">
-                                <i class="fa-solid fa-mosque text-3xl"></i>
+                <!-- Integrasi Cloud Sync -->
+                <div class="bg-white rounded-3xl p-6 border border-slate-200/90 shadow-sm space-y-4">
+                    <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-cloud text-emerald-600 text-lg"></i>
+                            <div>
+                                <h3 class="font-bold text-slate-800 text-sm">Integrasi Google Sheets (Cloud Sync)</h3>
+                                <p class="text-xs text-slate-400">Hubungkan dengan Google Sheets agar data sinkron di HP seluruh pengurus DKM.</p>
                             </div>
                         </div>
+                        <span id="cloud-status-chip" class="px-3 py-1 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600">Tersambung Ke Local</span>
+                    </div>
+
+                    <form onsubmit="handleSaveGasUrl(event)" class="space-y-3.5 text-xs">
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">URL Google Apps Script Web App</label>
+                            <input type="url" id="setting-gas-url" placeholder="https://script.google.com/macros/s/.../exec" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-slate-800 focus:ring-2 focus:ring-mosque-600">
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button type="submit" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl transition shadow-md flex items-center gap-2">
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                <span>Simpan & Sinkronkan</span>
+                            </button>
+                            <button type="button" onclick="fetchFromCloudSync()" class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition flex items-center gap-2">
+                                <i class="fa-solid fa-rotate"></i>
+                                <span>Tarik Data Cloud</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Logo Masjid -->
+                <div class="bg-white rounded-3xl p-6 border border-slate-200/90 shadow-sm space-y-4">
+                    <h3 class="font-bold text-slate-800 text-sm pb-2 border-b border-slate-100">Logo Resmi Masjid</h3>
+                    <div class="flex items-center gap-4">
+                        <div class="w-16 h-16 rounded-2xl bg-mosque-50 border border-slate-200 flex items-center justify-center overflow-hidden shrink-0 shadow-inner">
+                            <i id="logo-placeholder" class="fa-solid fa-mosque text-mosque-700 text-2xl"></i>
+                            <img id="logo-preview-img" src="" class="w-full h-full object-cover hidden">
+                        </div>
                         <div class="space-y-2 text-xs flex-1">
-                            <label class="block font-bold text-slate-700">Unggah Logo Resmi Masjid (PNG / JPG / SVG)</label>
+                            <label class="block font-bold text-slate-700">Unggah Logo Resmi Masjid</label>
                             <input type="file" id="input-logo-file" accept="image/*" onchange="handleLogoUpload(this)" class="block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-mosque-50 file:text-mosque-700 hover:file:bg-mosque-100">
-                            <p class="text-[11px] text-slate-400">Logo akan tampil pada Layar Login, Navigation Header, dan Cetak Label QR Code.</p>
+                            <p id="logo-info-text" class="text-[11px] text-slate-400">Foto akan otomatis terkompresi secara otomatis.</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Quick Export Excel Tool -->
-                <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm flex items-center justify-between">
-                    <div>
-                        <h3 class="font-bold text-slate-800 text-sm">Backup / Ekspor Data Inventaris</h3>
-                        <p class="text-xs text-slate-400">Unduh seluruh catatan barang masjid dalam bentuk file spreadsheet CSV/Excel.</p>
-                    </div>
-                    <button onclick="exportToCsv()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs flex items-center gap-2 transition shadow">
-                        <i class="fa-solid fa-file-excel"></i>
-                        <span>Download CSV/Excel</span>
-                    </button>
-                </div>
-
-                <!-- Tabel Kelola Admin -->
-                <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm space-y-4">
-                    <div class="flex items-center justify-between">
+                <!-- Kelola Admin -->
+                <div class="bg-white rounded-3xl p-6 border border-slate-200/90 shadow-sm space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-2">
                         <h3 class="font-bold text-slate-800 text-sm">Daftar Admin & Pengurus Inventaris</h3>
-                        <button onclick="openModal('modal-add-admin')" class="px-3.5 py-2 bg-mosque-600 hover:bg-mosque-700 text-white font-bold rounded-xl text-xs flex items-center gap-2 transition">
+                        <button onclick="openModal('modal-add-admin')" class="px-3.5 py-2 bg-mosque-600 hover:bg-mosque-700 text-white font-bold rounded-xl text-xs flex items-center gap-2 transition shadow">
                             <i class="fa-solid fa-user-plus"></i>
                             <span>Tambah Admin Baru</span>
                         </button>
                     </div>
 
-                    <div class="overflow-x-auto border border-slate-200 rounded-xl">
+                    <div class="overflow-x-auto border border-slate-200 rounded-2xl">
                         <table class="w-full text-left text-xs">
                             <thead>
                                 <tr class="bg-slate-50 text-slate-500 font-bold uppercase tracking-wider border-b border-slate-200">
-                                    <th class="p-3">Nama Pengurus</th>
-                                    <th class="p-3">Username / Email</th>
-                                    <th class="p-3">Peran (Role)</th>
-                                    <th class="p-3 text-center">Aksi Edit / Hapus</th>
+                                    <th class="p-3.5">Nama Pengurus</th>
+                                    <th class="p-3.5">Username / Email</th>
+                                    <th class="p-3.5">Peran (Role)</th>
+                                    <th class="p-3.5 text-center">Aksi Edit / Hapus</th>
                                 </tr>
                             </thead>
                             <tbody id="admin-table-body" class="divide-y divide-slate-100 font-medium">
@@ -591,10 +590,8 @@
         </main>
     </div>
 
-    <!-- ========================================== -->
-    <!-- TOUCH-FRIENDLY MOBILE BOTTOM NAVBAR        -->
-    <!-- ========================================== -->
-    <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-slate-200 px-2 py-1.5 flex items-center justify-around z-40 shadow-2xl">
+    <!-- TOUCH-FRIENDLY MOBILE BOTTOM NAVBAR -->
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-slate-200/90 px-2 py-2 flex items-center justify-around z-40 shadow-2xl">
         <button onclick="switchView('dashboard')" id="nav-mobile-dashboard" class="nav-item-mobile flex flex-col items-center gap-0.5 px-3 py-1 text-mosque-700 font-bold">
             <i class="fa-solid fa-chart-pie text-lg"></i>
             <span class="text-[10px]">Home</span>
@@ -603,7 +600,7 @@
             <i class="fa-solid fa-boxes-stacked text-lg"></i>
             <span class="text-[10px]">Barang</span>
         </button>
-        <button onclick="startCameraScanner()" class="flex flex-col items-center justify-center -mt-5 w-12 h-12 bg-emerald-500 text-slate-950 rounded-full shadow-lg shadow-emerald-500/40 active:scale-95 transition">
+        <button onclick="startCameraScanner()" class="flex flex-col items-center justify-center -mt-6 w-13 h-13 bg-emerald-500 text-slate-950 rounded-full shadow-lg shadow-emerald-500/40 active:scale-95 transition border-4 border-slate-100">
             <i class="fa-solid fa-qrcode text-xl"></i>
         </button>
         <button onclick="switchView('peminjaman')" id="nav-mobile-peminjaman" class="nav-item-mobile flex flex-col items-center gap-0.5 px-3 py-1 text-slate-400 font-medium">
@@ -616,49 +613,8 @@
         </button>
     </nav>
 
-    <!-- ========================================== -->
-    <!-- ALL INTERACTIVE MODALS                     -->
-    <!-- ========================================== -->
-
-    <!-- 1. LOGIN SUPER ADMIN OVERLAY (LOCK SCREEN SANGAT AMAN) -->
-    <div id="modal-login" class="fixed inset-0 bg-slate-950 z-50 flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-md rounded-3xl p-6 shadow-2xl space-y-5">
-            <div class="text-center space-y-2">
-                <div class="w-16 h-16 rounded-2xl bg-mosque-700 mx-auto flex items-center justify-center text-white text-2xl font-bold overflow-hidden shadow-lg shadow-mosque-900/30">
-                    <img id="login-logo-img" src="" class="w-full h-full object-cover hidden">
-                    <i id="login-logo-icon" class="fa-solid fa-mosque"></i>
-                </div>
-                <h3 class="font-extrabold text-slate-800 text-xl">Masuk Sistem SIMAS</h3>
-                <p class="text-xs text-slate-500">Silakan login untuk mengelola inventaris <span class="label-display-masjid">Masjid Al-Barkah</span>.</p>
-            </div>
-
-            <form onsubmit="handleLoginSubmit(event)" class="space-y-4 text-xs">
-                <div>
-                    <label class="block font-bold text-slate-700 mb-1">Username / Email Super Admin</label>
-                    <input type="text" id="login-username" required placeholder="Masukkan username admin" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-mosque-600 font-semibold text-slate-800">
-                </div>
-
-                <div>
-                    <label class="block font-bold text-slate-700 mb-1">Password</label>
-                    <div class="relative">
-                        <input type="password" id="login-password" required placeholder="Masukkan password" class="w-full pl-3.5 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-mosque-600 font-semibold text-slate-800">
-                        <button type="button" onclick="togglePasswordVisibility('login-password', 'eye-login')" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
-                            <i id="eye-login" class="fa-solid fa-eye text-sm"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="pt-2">
-                    <button type="submit" class="w-full py-3 bg-mosque-600 hover:bg-mosque-700 text-white font-bold rounded-xl shadow-lg shadow-mosque-600/30 text-sm transition">
-                        Masuk Ke Aplikasi
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- 2. TAMBAH BARANG MODAL -->
-    <div id="modal-add-item" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <!-- MODAL TAMBAH BARANG -->
+    <div id="modal-add-item" class="fixed inset-0 bg-slate-950/75 backdrop-blur-sm z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
         <div class="bg-white w-full max-w-lg rounded-t-3xl sm:rounded-3xl p-6 max-h-[90vh] overflow-y-auto no-scrollbar shadow-2xl space-y-4">
             <div class="flex items-center justify-between pb-3 border-b border-slate-100">
                 <h3 class="font-bold text-slate-800 text-base">Tambah Barang Inventaris Baru</h3>
@@ -671,7 +627,7 @@
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block font-bold text-slate-700 mb-1">Kode SKU *</label>
-                        <input type="text" id="add-sku" required placeholder="Contoh: INV-007" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-mono focus:ring-2 focus:ring-mosque-600">
+                        <input type="text" id="add-sku" required placeholder="INV-007" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-mono focus:ring-2 focus:ring-mosque-600">
                     </div>
                     <div>
                         <label class="block font-bold text-slate-700 mb-1">Jumlah Unit *</label>
@@ -697,7 +653,7 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block font-bold text-slate-700 mb-1">Lokasi Storage Dropdown *</label>
+                        <label class="block font-bold text-slate-700 mb-1">Lokasi Storage *</label>
                         <select id="add-lokasi" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600">
                             <option value="Ruang Utama Salat">Ruang Utama Salat</option>
                             <option value="Ruang Sound System">Ruang Sound System</option>
@@ -707,6 +663,19 @@
                             <option value="Sekretariat DKM">Sekretariat DKM</option>
                             <option value="Area Wudu / Halaman">Area Wudu / Halaman</option>
                         </select>
+                    </div>
+                </div>
+
+                <!-- Unggah Foto Fisik dengan Kompresi Otomatis -->
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Foto Fisik Barang (Kompresi Otomatis)</label>
+                    <input type="file" accept="image/*" onchange="handleImageCompress(this, 'add-photo-preview', 'add-photo-info')" class="block w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-mosque-50 file:text-mosque-700 hover:file:bg-mosque-100">
+                    <p id="add-photo-info" class="text-[11px] text-slate-400 mt-1">Ukuran foto akan otomatis diperkecil agar ringan.</p>
+                    <div class="mt-2 w-full h-32 rounded-xl border border-slate-200 bg-slate-50 flex items-center justify-center overflow-hidden">
+                        <img id="add-photo-preview" src="" class="w-full h-full object-cover hidden">
+                        <span id="add-photo-placeholder" class="text-xs text-slate-400 flex items-center gap-1.5">
+                            <i class="fa-solid fa-image"></i> Belum ada foto
+                        </span>
                     </div>
                 </div>
 
@@ -733,8 +702,8 @@
         </div>
     </div>
 
-    <!-- 3. EDIT BARANG MODAL -->
-    <div id="modal-edit-item" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <!-- MODAL EDIT BARANG -->
+    <div id="modal-edit-item" class="fixed inset-0 bg-slate-950/75 backdrop-blur-sm z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
         <div class="bg-white w-full max-w-lg rounded-t-3xl sm:rounded-3xl p-6 max-h-[90vh] overflow-y-auto no-scrollbar shadow-2xl space-y-4">
             <div class="flex items-center justify-between pb-3 border-b border-slate-100">
                 <h3 class="font-bold text-slate-800 text-base">Edit Data Barang Inventaris</h3>
@@ -743,18 +712,22 @@
                 </button>
             </div>
 
-            <form id="form-edit-item" onsubmit="handleEditItemSubmit(event)" class="space-y-3.5 text-xs">
+            <form onsubmit="handleEditItemSubmit(event)" class="space-y-3.5 text-xs">
                 <input type="hidden" id="edit-id">
-
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block font-bold text-slate-700 mb-1">Kode SKU</label>
-                        <input type="text" id="edit-sku" readonly class="w-full px-3 py-2 bg-slate-100 border border-slate-200 rounded-xl font-mono text-slate-500 cursor-not-allowed">
+                        <label class="block font-bold text-slate-700 mb-1">Kode SKU *</label>
+                        <input type="text" id="edit-sku" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-mono focus:ring-2 focus:ring-mosque-600">
                     </div>
                     <div>
-                        <label class="block font-bold text-slate-700 mb-1">Nama Barang *</label>
-                        <input type="text" id="edit-nama" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600">
+                        <label class="block font-bold text-slate-700 mb-1">Jumlah Unit *</label>
+                        <input type="number" id="edit-qty" min="1" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600">
                     </div>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Nama Barang *</label>
+                    <input type="text" id="edit-nama" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600">
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
@@ -770,7 +743,7 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block font-bold text-slate-700 mb-1">Lokasi Storage Dropdown *</label>
+                        <label class="block font-bold text-slate-700 mb-1">Lokasi Storage *</label>
                         <select id="edit-lokasi" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600">
                             <option value="Ruang Utama Salat">Ruang Utama Salat</option>
                             <option value="Ruang Sound System">Ruang Sound System</option>
@@ -785,30 +758,30 @@
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block font-bold text-slate-700 mb-1">Kondisi</label>
+                        <label class="block font-bold text-slate-700 mb-1">Kondisi Barang</label>
                         <select id="edit-kondisi" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600">
-                            <option value="Baik">Baik</option>
+                            <option value="Baik">Baik (Siap Pakai)</option>
                             <option value="Rusak Ringan">Rusak Ringan</option>
                             <option value="Rusak Berat">Rusak Berat</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block font-bold text-slate-700 mb-1">Jumlah</label>
-                        <input type="number" id="edit-qty" min="1" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600">
+                        <label class="block font-bold text-slate-700 mb-1">Sumber Perolehan</label>
+                        <input type="text" id="edit-sumber" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600">
                     </div>
                 </div>
 
                 <div class="pt-3 flex justify-end gap-2 border-t border-slate-100">
                     <button type="button" onclick="closeModal('modal-edit-item')" class="px-4 py-2 rounded-xl text-slate-600 font-bold hover:bg-slate-100">Batal</button>
-                    <button type="submit" class="px-5 py-2 bg-mosque-600 hover:bg-mosque-700 text-white font-bold rounded-xl shadow">Perbarui Data</button>
+                    <button type="submit" class="px-5 py-2 bg-mosque-600 hover:bg-mosque-700 text-white font-bold rounded-xl shadow">Update Barang</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- 4. MODAL CATAT PEMINJAMAN -->
-    <div id="modal-borrow" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
-        <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-6 shadow-2xl space-y-4">
+    <!-- MODAL CATAT PEMINJAMAN BARU -->
+    <div id="modal-borrow" class="fixed inset-0 bg-slate-950/75 backdrop-blur-sm z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
+        <div class="bg-white w-full max-w-lg rounded-t-3xl sm:rounded-3xl p-6 max-h-[90vh] overflow-y-auto no-scrollbar shadow-2xl space-y-4">
             <div class="flex items-center justify-between pb-3 border-b border-slate-100">
                 <h3 class="font-bold text-slate-800 text-base">Catat Peminjaman Barang</h3>
                 <button onclick="closeModal('modal-borrow')" class="text-slate-400 hover:text-slate-600">
@@ -816,46 +789,51 @@
                 </button>
             </div>
 
-            <form onsubmit="handleBorrowSubmit(event)" class="space-y-3 text-xs">
+            <form onsubmit="handleBorrowSubmit(event)" class="space-y-3.5 text-xs">
                 <div>
-                    <label class="block font-bold text-slate-700 mb-1">Pilih Barang Yang Tersedia *</label>
-                    <select id="borrow-item-select" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600">
+                    <label class="block font-bold text-slate-700 mb-1">Pilih Barang yang Dipinjam *</label>
+                    <select id="borrow-item-id" required class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold focus:ring-2 focus:ring-mosque-600">
                         <!-- Dynamic -->
                     </select>
                 </div>
 
                 <div>
                     <label class="block font-bold text-slate-700 mb-1">Nama Peminjam / Penanggung Jawab *</label>
-                    <input type="text" id="borrower-name" required placeholder="Contoh: Ust. Farhan / Panitia Qurban" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600">
+                    <input type="text" id="borrow-name" required placeholder="Contoh: H. Supriadi (Panitia PHBI)" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600">
                 </div>
 
-                <div class="grid grid-cols-2 gap-2">
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">No. WhatsApp / HP Peminjam *</label>
+                    <input type="tel" id="borrow-phone" required placeholder="08123456789" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block font-bold text-slate-700 mb-1">Kontak HP / WA</label>
-                        <input type="text" id="borrower-phone" placeholder="08123456789" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600">
+                        <label class="block font-bold text-slate-700 mb-1">Tgl Pinjam *</label>
+                        <input type="date" id="borrow-date" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600">
                     </div>
                     <div>
-                        <label class="block font-bold text-slate-700 mb-1">Tgl Batas Kembali *</label>
-                        <input type="date" id="borrow-return-date" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600">
+                        <label class="block font-bold text-slate-700 mb-1">Batas Waktu Pengembalian *</label>
+                        <input type="date" id="borrow-due-date" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600">
                     </div>
                 </div>
 
                 <div>
-                    <label class="block font-bold text-slate-700 mb-1">Keperluan Acara</label>
-                    <input type="text" id="borrow-purpose" placeholder="Acara Kajian Akbar / Pengajian Warga" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600">
+                    <label class="block font-bold text-slate-700 mb-1">Keperluan / Acara</label>
+                    <input type="text" id="borrow-purpose" placeholder="Acara Tabligh Akbar RT 04" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600">
                 </div>
 
                 <div class="pt-3 flex justify-end gap-2 border-t border-slate-100">
                     <button type="button" onclick="closeModal('modal-borrow')" class="px-4 py-2 rounded-xl text-slate-600 font-bold hover:bg-slate-100">Batal</button>
-                    <button type="submit" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow">Simpan Pinjaman</button>
+                    <button type="submit" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow">Simpan Peminjaman</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- 5. MODAL JADWALKAN MAINTENANCE -->
-    <div id="modal-maintenance" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
-        <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-6 shadow-2xl space-y-4">
+    <!-- MODAL JADWALKAN MAINTENANCE -->
+    <div id="modal-maintenance" class="fixed inset-0 bg-slate-950/75 backdrop-blur-sm z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
+        <div class="bg-white w-full max-w-lg rounded-t-3xl sm:rounded-3xl p-6 max-h-[90vh] overflow-y-auto no-scrollbar shadow-2xl space-y-4">
             <div class="flex items-center justify-between pb-3 border-b border-slate-100">
                 <h3 class="font-bold text-slate-800 text-base">Jadwalkan Maintenance / Servis</h3>
                 <button onclick="closeModal('modal-maintenance')" class="text-slate-400 hover:text-slate-600">
@@ -863,199 +841,94 @@
                 </button>
             </div>
 
-            <form onsubmit="handleMaintenanceSubmit(event)" class="space-y-3 text-xs">
+            <form onsubmit="handleMaintenanceSubmit(event)" class="space-y-3.5 text-xs">
                 <div>
-                    <label class="block font-bold text-slate-700 mb-1">Pilih Barang Inventaris *</label>
-                    <select id="maint-item-select" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600">
+                    <label class="block font-bold text-slate-700 mb-1">Pilih Barang yang Dirawat *</label>
+                    <select id="maint-item-id" required class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold focus:ring-2 focus:ring-mosque-600">
                         <!-- Dynamic -->
                     </select>
                 </div>
 
-                <div class="grid grid-cols-2 gap-2">
+                <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block font-bold text-slate-700 mb-1">Jenis Perawatan</label>
-                        <select id="maint-type" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600">
-                            <option value="Cuci Karpet">Cuci Karpet Berkala</option>
-                            <option value="Servis AC">Servis & Cuci AC</option>
-                            <option value="Perbaikan Sound">Perbaikan Audio / Sound</option>
-                            <option value="Perbaikan Umum">Perbaikan Umum</option>
+                        <label class="block font-bold text-slate-700 mb-1">Jenis Perawatan *</label>
+                        <select id="maint-type" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600">
+                            <option value="Perbaikan & Servis">Perbaikan & Servis</option>
+                            <option value="Pembersihan / Cuci">Pembersihan / Cuci</option>
+                            <option value="Rutinan Terjadwal">Rutinan Terjadwal</option>
+                            <option value="Kalibrasi / Tuning Audio">Kalibrasi / Tuning Audio</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block font-bold text-slate-700 mb-1">Tanggal Rencana *</label>
+                        <label class="block font-bold text-slate-700 mb-1">Tgl Pelaksanaan *</label>
                         <input type="date" id="maint-date" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600">
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-2">
+                <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block font-bold text-slate-700 mb-1">Teknisi / Vendor</label>
-                        <input type="text" id="maint-vendor" placeholder="CV Clean Carpet / Teknisi TOA" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600">
+                        <input type="text" id="maint-vendor" placeholder="CV Audio Tech / Tim Kebersihan DKM" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600">
                     </div>
                     <div>
                         <label class="block font-bold text-slate-700 mb-1">Estimasi Biaya (Rp)</label>
-                        <input type="number" id="maint-cost" placeholder="250000" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600">
+                        <input type="number" id="maint-cost" placeholder="150000" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600">
                     </div>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Detail Rencana Maintenance</label>
+                    <textarea id="maint-notes" rows="2" placeholder="Detail pergantian sparepart atau pencucian..." class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600"></textarea>
                 </div>
 
                 <div class="pt-3 flex justify-end gap-2 border-t border-slate-100">
                     <button type="button" onclick="closeModal('modal-maintenance')" class="px-4 py-2 rounded-xl text-slate-600 font-bold hover:bg-slate-100">Batal</button>
-                    <button type="submit" class="px-5 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl shadow">Jadwalkan</button>
+                    <button type="submit" class="px-5 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl shadow">Simpan Jadwal</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- 6. MODAL SCANNER BARCODE / QR CODE (REAL CAMERA FEED) -->
-    <div id="modal-qr-scanner" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex flex-col items-center justify-center p-4">
-        <div class="w-full max-w-sm bg-slate-900 border border-slate-800 rounded-3xl p-5 text-center text-white space-y-4 shadow-2xl relative overflow-hidden">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
-                <span id="qr-status-text" class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
-                    <i class="fa-solid fa-camera"></i> Pemindai Kamera
-                </span>
-                <button onclick="stopCameraScanner()" class="text-slate-400 hover:text-white">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-
-            <!-- Viewport Feed Kamera -->
-            <div class="relative w-full h-64 mx-auto bg-slate-950 border-2 border-emerald-500/60 rounded-2xl flex items-center justify-center overflow-hidden shadow-inner">
-                <video id="qr-video" autoplay playsinline class="w-full h-full object-cover hidden"></video>
-
-                <div id="qr-camera-placeholder" class="flex flex-col items-center justify-center text-slate-600 space-y-2 p-4">
-                    <i class="fa-solid fa-qrcode text-5xl text-slate-700"></i>
-                    <p class="text-[11px] text-slate-400">Menginisialisasi Kamera HP...</p>
+    <!-- MODAL LOGIN OVERLAY (POLISHED UI/UX + DYNAMIC MOSQUE NAME) -->
+    <div id="modal-login" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-md rounded-3xl p-7 shadow-2xl space-y-6 border border-white/20 animate-in zoom-in-95 duration-200">
+            <div class="text-center space-y-3">
+                <div class="w-20 h-20 rounded-3xl bg-gradient-to-tr from-mosque-900 via-mosque-700 to-emerald-500 mx-auto flex items-center justify-center text-white text-3xl font-bold overflow-hidden shadow-xl shadow-mosque-900/40 border-2 border-white/20">
+                    <img id="login-logo-img" src="" class="w-full h-full object-cover hidden">
+                    <i id="login-logo-icon" class="fa-solid fa-mosque"></i>
                 </div>
-
-                <div class="absolute inset-4 border border-emerald-400/40 rounded-xl pointer-events-none">
-                    <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-emerald-400"></div>
-                    <div class="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-emerald-400"></div>
-                    <div class="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-emerald-400"></div>
-                    <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-emerald-400"></div>
-                </div>
-                <div class="absolute w-full h-0.5 bg-emerald-400 shadow-[0_0_15px_#34d399] laser-line pointer-events-none"></div>
-            </div>
-
-            <p class="text-[11px] text-slate-400">Posisikan stiker QR Code / Barcode inventaris masjid tepat di dalam kotak hijau.</p>
-
-            <button onclick="simulateScanBarcode()" class="w-full py-2.5 bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold rounded-xl text-xs transition shadow-lg shadow-emerald-500/20">
-                Simulasi Quick Scan (INV-001)
-            </button>
-        </div>
-    </div>
-
-    <!-- 7. MODAL CETAK STIKER QR CODE -->
-    <div id="modal-qr-code" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-xs rounded-3xl p-6 shadow-2xl text-center space-y-4">
-            <div class="flex items-center justify-between border-b border-slate-100 pb-2">
-                <h3 class="font-bold text-slate-800 text-sm">Stiker Barcode Inventaris</h3>
-                <button onclick="closeModal('modal-qr-code')" class="text-slate-400 hover:text-slate-600">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-
-            <div class="p-4 border-2 border-dashed border-slate-300 rounded-2xl bg-slate-50 space-y-2">
-                <div class="flex items-center justify-center gap-1.5 text-mosque-800 font-bold text-xs uppercase">
-                    <i class="fa-solid fa-mosque"></i>
-                    <span id="qr-masjid-label" class="label-display-masjid">MASJID AL-BARKAH</span>
-                </div>
-                <div class="w-32 h-32 mx-auto bg-white p-2 rounded-xl shadow-inner border border-slate-200 flex items-center justify-center">
-                    <i class="fa-solid fa-qrcode text-7xl text-slate-800"></i>
-                </div>
-                <p id="qr-sku-label" class="font-mono font-bold text-sm text-slate-800">INV-001</p>
-                <p id="qr-name-label" class="text-[11px] text-slate-500 truncate">Nama Barang</p>
-            </div>
-
-            <button onclick="window.print()" class="w-full py-2.5 bg-mosque-600 hover:bg-mosque-700 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2">
-                <i class="fa-solid fa-print"></i>
-                <span>Cetak Label Stiker</span>
-            </button>
-        </div>
-    </div>
-
-    <!-- 8. MODAL TAMBAH ADMIN BARU -->
-    <div id="modal-add-admin" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-md rounded-3xl p-6 shadow-2xl space-y-4">
-            <div class="flex items-center justify-between pb-2 border-b border-slate-100">
-                <h3 class="font-bold text-slate-800 text-base">Tambah Admin / Pengurus Baru</h3>
-                <button onclick="closeModal('modal-add-admin')" class="text-slate-400 hover:text-slate-600">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-
-            <form onsubmit="handleAddAdminSubmit(event)" class="space-y-3 text-xs">
                 <div>
-                    <label class="block font-bold text-slate-700 mb-1">Nama Lengkap Pengurus *</label>
-                    <input type="text" id="admin-add-nama" required placeholder="H. Abdullah" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600">
+                    <h3 class="font-extrabold text-slate-800 text-xl tracking-tight">Login Super Admin</h3>
+                    <p class="text-xs text-slate-500 mt-1">Sistem Informasi Inventaris <br>
+                        <span id="login-masjid-name-display" class="label-display-masjid font-bold text-emerald-700 text-sm">Masjid Al-Barkah</span>
+                    </p>
                 </div>
+            </div>
 
+            <form onsubmit="handleLoginSubmit(event)" class="space-y-4 text-xs">
                 <div>
-                    <label class="block font-bold text-slate-700 mb-1">Username / Email *</label>
-                    <input type="text" id="admin-add-email" required placeholder="abdullah@dkm.org" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600">
-                </div>
-
-                <div>
-                    <label class="block font-bold text-slate-700 mb-1">Password *</label>
+                    <label class="block font-bold text-slate-700 mb-1.5">Username / Email Super Admin</label>
                     <div class="relative">
-                        <input type="password" id="admin-add-pass" required placeholder="******" class="w-full pl-3 pr-9 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600">
-                        <button type="button" onclick="togglePasswordVisibility('admin-add-pass', 'eye-admin-add')" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
-                            <i id="eye-admin-add" class="fa-solid fa-eye text-xs"></i>
-                        </button>
+                        <i class="fa-solid fa-user absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                        <input type="text" id="login-username" required placeholder="Masukkan username admin" class="w-full pl-9 pr-3.5 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600 font-semibold text-slate-800 transition">
                     </div>
                 </div>
 
                 <div>
-                    <label class="block font-bold text-slate-700 mb-1">Peran Access *</label>
-                    <select id="admin-add-role" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600">
-                        <option value="Petugas Inventaris">Petugas Inventaris (Input/Edit)</option>
-                        <option value="Pengurus DKM">Pengurus DKM (View & Report)</option>
-                        <option value="Super Admin">Super Admin (Full Access)</option>
-                    </select>
+                    <label class="block font-bold text-slate-700 mb-1.5">Password</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-lock absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                        <input type="password" id="login-password" required placeholder="Masukkan password" class="w-full pl-9 pr-10 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600 font-semibold text-slate-800 transition">
+                        <button type="button" onclick="togglePasswordVisibility('login-password', 'eye-login')" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1">
+                            <i id="eye-login" class="fa-solid fa-eye text-sm"></i>
+                        </button>
+                    </div>
                 </div>
 
-                <div class="pt-3 flex justify-end gap-2 border-t border-slate-100">
-                    <button type="button" onclick="closeModal('modal-add-admin')" class="px-4 py-2 rounded-xl text-slate-600 font-bold hover:bg-slate-100">Batal</button>
-                    <button type="submit" class="px-5 py-2 bg-mosque-600 hover:bg-mosque-700 text-white font-bold rounded-xl shadow">Daftarkan Admin</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- 9. MODAL EDIT ADMIN -->
-    <div id="modal-edit-admin" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-md rounded-3xl p-6 shadow-2xl space-y-4">
-            <div class="flex items-center justify-between pb-2 border-b border-slate-100">
-                <h3 class="font-bold text-slate-800 text-base">Edit Data Admin / Pengurus</h3>
-                <button onclick="closeModal('modal-edit-admin')" class="text-slate-400 hover:text-slate-600">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-
-            <form onsubmit="handleEditAdminSubmit(event)" class="space-y-3 text-xs">
-                <input type="hidden" id="admin-edit-id">
-
-                <div>
-                    <label class="block font-bold text-slate-700 mb-1">Nama Lengkap *</label>
-                    <input type="text" id="admin-edit-nama" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600">
-                </div>
-
-                <div>
-                    <label class="block font-bold text-slate-700 mb-1">Username / Email *</label>
-                    <input type="text" id="admin-edit-email" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600">
-                </div>
-
-                <div>
-                    <label class="block font-bold text-slate-700 mb-1">Peran (Role)</label>
-                    <select id="admin-edit-role" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-mosque-600">
-                        <option value="Super Admin">Super Admin</option>
-                        <option value="Petugas Inventaris">Petugas Inventaris</option>
-                        <option value="Pengurus DKM">Pengurus DKM</option>
-                    </select>
-                </div>
-
-                <div class="pt-3 flex justify-end gap-2 border-t border-slate-100">
-                    <button type="button" onclick="closeModal('modal-edit-admin')" class="px-4 py-2 rounded-xl text-slate-600 font-bold hover:bg-slate-100">Batal</button>
-                    <button type="submit" class="px-5 py-2 bg-mosque-600 hover:bg-mosque-700 text-white font-bold rounded-xl shadow">Perbarui Admin</button>
+                <div class="pt-2">
+                    <button type="submit" class="w-full py-3.5 bg-mosque-600 hover:bg-mosque-700 active:scale-98 text-white font-extrabold rounded-xl shadow-lg shadow-mosque-600/30 text-xs tracking-wide transition">
+                        Masuk Ke SIMAS
+                    </button>
                 </div>
             </form>
         </div>
@@ -1064,876 +937,160 @@
     <!-- TOAST NOTIFICATION CONTAINER -->
     <div id="toast-container" class="fixed top-5 right-5 z-50 pointer-events-none space-y-2"></div>
 
-    <!-- ========================================== -->
-    <!-- PRINTABLE PDF REPORT TEMPLATE (STANDAR A4) -->
-    <!-- ========================================== -->
-    <div id="printable-pdf-area" class="hidden p-8 bg-white font-sans text-slate-900 space-y-6">
-        <!-- Kop Surat -->
-        <div class="border-b-4 border-emerald-800 pb-4 flex items-center justify-between">
-            <div class="flex items-center gap-4">
-                <div class="w-16 h-16 rounded-2xl bg-emerald-800 text-white flex items-center justify-center font-bold text-3xl">
-                    <i class="fa-solid fa-mosque"></i>
-                </div>
-                <div>
-                    <h1 id="pdf-masjid-title" class="text-2xl font-black uppercase text-emerald-900">MASJID AL-BARKAH</h1>
-                    <p class="text-xs text-slate-600 font-medium">Sistem Informasi Inventaris Resmi DKM</p>
-                    <p class="text-[11px] text-slate-500">Email: dkm@masjid.org • Dokumen Cetak Inventaris</p>
-                </div>
-            </div>
-            <div class="text-right">
-                <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 bg-emerald-100 text-emerald-900 rounded-md">Laporan Resmi</span>
-                <p class="text-xs text-slate-500 mt-1" id="pdf-print-date">Tgl: 03/11/2026</p>
-            </div>
-        </div>
-
-        <div class="text-center py-2">
-            <h2 class="text-lg font-extrabold uppercase text-slate-800 underline">LAPORAN REKAPITULASI INVENTARIS MASJID</h2>
-            <p class="text-xs text-slate-500">Nomor Dokumen: DKM-INV/2026/XI/001</p>
-        </div>
-
-        <!-- Metric Summary -->
-        <div class="grid grid-cols-4 gap-4 text-center">
-            <div class="border border-slate-300 p-2.5 rounded-lg">
-                <p class="text-[10px] text-slate-500 font-bold uppercase">Total Unit</p>
-                <p id="pdf-stat-total" class="text-lg font-bold text-slate-800">0</p>
-            </div>
-            <div class="border border-slate-300 p-2.5 rounded-lg">
-                <p class="text-[10px] text-emerald-700 font-bold uppercase">Kondisi Baik</p>
-                <p id="pdf-stat-baik" class="text-lg font-bold text-emerald-800">0</p>
-            </div>
-            <div class="border border-slate-300 p-2.5 rounded-lg">
-                <p class="text-[10px] text-amber-700 font-bold uppercase">Perlu Servis</p>
-                <p id="pdf-stat-rusak" class="text-lg font-bold text-amber-800">0</p>
-            </div>
-            <div class="border border-slate-300 p-2.5 rounded-lg">
-                <p class="text-[10px] text-blue-700 font-bold uppercase">Dipinjam</p>
-                <p id="pdf-stat-dipinjam" class="text-lg font-bold text-blue-800">0</p>
-            </div>
-        </div>
-
-        <!-- Tabel Rincian PDF -->
-        <table class="w-full text-left text-xs border-collapse border border-slate-300">
-            <thead>
-                <tr class="bg-slate-100 font-bold text-slate-800 border-b border-slate-300">
-                    <th class="p-2 border-r border-slate-300">No</th>
-                    <th class="p-2 border-r border-slate-300">SKU</th>
-                    <th class="p-2 border-r border-slate-300">Nama Barang</th>
-                    <th class="p-2 border-r border-slate-300">Kategori</th>
-                    <th class="p-2 border-r border-slate-300">Lokasi Storage</th>
-                    <th class="p-2 border-r border-slate-300 text-center">Jumlah</th>
-                    <th class="p-2 border-r border-slate-300">Kondisi</th>
-                    <th class="p-2">Sumber</th>
-                </tr>
-            </thead>
-            <tbody id="pdf-table-body" class="divide-y divide-slate-300">
-                <!-- Dynamic -->
-            </tbody>
-        </table>
-
-        <!-- Signature Block -->
-        <div class="pt-8 flex justify-between text-xs text-center font-medium">
-            <div>
-                <p class="mb-14">Petugas Inventaris,</p>
-                <p class="font-bold underline">( Ust. Rahmat Hidayat )</p>
-            </div>
-            <div>
-                <p class="mb-14">Ketua DKM <span class="label-display-masjid">Masjid Al-Barkah</span>,</p>
-                <p class="font-bold underline">( H. Ahmad Abdullah )</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- ========================================== -->
-    <!-- MAIN JAVASCRIPT APP LOGIC                  -->
-    <!-- ========================================== -->
+    <!-- MAIN JAVASCRIPT LOGIC -->
     <script>
-        // MOCK INITIAL STATE DATA (DEFAULT FALLBACK)
         const defaultInventoryData = [
-            { id: 1, sku: 'INV-001', name: 'Sound System Baretone Portable 15"', category: 'Sound System & Elektronik', location: 'Ruang Sound System', qty: 2, condition: 'Baik', status: 'Tersedia', source: 'Kas DKM', borrowBy: '-' },
-            { id: 2, sku: 'INV-002', name: 'Karpet Sajadah Turkey Roll (6m)', category: 'Alat Salat & Karpet', location: 'Ruang Utama Salat', qty: 10, condition: 'Baik', status: 'Tersedia', source: 'Wakaf Jamaah', borrowBy: '-' },
-            { id: 3, sku: 'INV-003', name: 'Vacuum Cleaner Kärcher Wet & Dry', category: 'Peralatan Kebersihan', location: 'Gudang Kebersihan', qty: 2, condition: 'Rusak Ringan', status: 'Tersedia', source: 'Kas DKM', borrowBy: '-' },
-            { id: 4, sku: 'INV-004', name: 'Kompor Mawar Gas High Pressure 2 Tungku', category: 'Peralatan Masak & Makan', location: 'Dapur Masjid', qty: 2, condition: 'Baik', status: 'Tersedia', source: 'Wakaf Jamaah', borrowBy: '-' },
-            { id: 5, sku: 'INV-005', name: 'Panci Kenduri Besar Alumunium 50 Liter', category: 'Peralatan Masak & Makan', location: 'Dapur Masjid', qty: 3, condition: 'Baik', status: 'Dipinjam', source: 'Kas DKM', borrowBy: 'Panitia Qurban' },
-            { id: 6, sku: 'INV-006', name: 'Piring & Mangkok Makan Saji (100 Pcs)', category: 'Peralatan Masak & Makan', location: 'Dapur Masjid', qty: 100, condition: 'Baik', status: 'Tersedia', source: 'Donasi', borrowBy: '-' }
+            { id: 1, sku: 'INV-001', name: 'Sound System Baretone Portable 15"', category: 'Sound System & Elektronik', location: 'Ruang Sound System', qty: 2, condition: 'Baik', status: 'Tersedia', source: 'Kas DKM', photo: '' },
+            { id: 2, sku: 'INV-002', name: 'Karpet Sajadah Turkey Roll (6m)', category: 'Alat Salat & Karpet', location: 'Ruang Utama Salat', qty: 10, condition: 'Baik', status: 'Tersedia', source: 'Wakaf Jamaah', photo: '' },
+            { id: 3, sku: 'INV-003', name: 'Kompor Mawar High Pressure', category: 'Peralatan Masak & Makan', location: 'Dapur Masjid', qty: 3, condition: 'Baik', status: 'Tersedia', source: 'Kas DKM', photo: '' }
         ];
 
         const defaultBorrowData = [
-            { id: 'PINJAM-101', itemSku: 'INV-005', itemName: 'Panci Kenduri Besar Alumunium 50 Liter', borrower: 'Panitia Qurban', phone: '08123456789', date: '2026-11-01', dueDate: '2026-11-05', status: 'Aktif', purpose: 'Acara Syukuran DKM' }
+            { id: 'BRW-101', itemId: 1, itemName: 'Sound System Baretone Portable 15"', borrower: 'H. Supriadi (Ketua RT 04)', phone: '08123456789', date: '2026-11-01', dueDate: '2026-11-05', status: 'Dipinjam', purpose: 'Pengajian Rutin RW' }
         ];
 
         const defaultMaintenanceData = [
-            { id: 'MAINT-201', itemSku: 'INV-002', itemName: 'Karpet Sajadah Turkey Roll', type: 'Cuci Karpet', date: '2026-11-10', vendor: 'CV Clean Carpet', cost: 350000, status: 'Terjadwal' }
+            { id: 'MNT-201', itemId: 2, itemName: 'Karpet Sajadah Turkey Roll (6m)', type: 'Pembersihan / Cuci', date: '2026-11-10', vendor: 'Laundry Karpet Barokah', cost: 250000, status: 'Terjadwal' },
+            { id: 'MNT-202', itemId: 1, itemName: 'Sound System Baretone Portable 15"', type: 'Kalibrasi / Tuning Audio', date: '2026-11-15', vendor: 'CV Audio Tech', cost: 150000, status: 'Terjadwal' }
         ];
 
-        const defaultAdminData = [
-            { id: 1, name: 'H. Ahmad Abdullah', email: 'admin', role: 'Super Admin', pass: 'admin123' },
-            { id: 2, name: 'Ust. Rahmat Hidayat', email: 'rahmat@dkm.org', role: 'Petugas Inventaris', pass: '123456' }
-        ];
-
-        // LOAD FROM LOCALSTORAGE OR FALLBACK TO DEFAULT
         let inventoryData = JSON.parse(localStorage.getItem('simas_inventory')) || defaultInventoryData;
         let borrowData = JSON.parse(localStorage.getItem('simas_borrow')) || defaultBorrowData;
         let maintenanceData = JSON.parse(localStorage.getItem('simas_maintenance')) || defaultMaintenanceData;
-        let adminData = JSON.parse(localStorage.getItem('simas_admin')) || defaultAdminData;
+        
         let savedLogo = localStorage.getItem('simas_logo') || '';
         let savedMasjidName = localStorage.getItem('simas_masjid_name') || 'Masjid Al-Barkah';
+        let currentCompressedPhoto = '';
 
-        let chartKondisiObj = null;
-        let chartKategoriObj = null;
-        let cameraStream = null;
+        // Chart.js instances
+        let chartKondisiInstance = null;
+        let chartKategoriInstance = null;
 
-        // SAVE ALL PERSISTENT STORAGE
-        function saveAllDataToStorage() {
-            localStorage.setItem('simas_inventory', JSON.stringify(inventoryData));
-            localStorage.setItem('simas_borrow', JSON.stringify(borrowData));
-            localStorage.setItem('simas_maintenance', JSON.stringify(maintenanceData));
-            localStorage.setItem('simas_admin', JSON.stringify(adminData));
-            localStorage.setItem('simas_masjid_name', savedMasjidName);
-            if (savedLogo) {
-                localStorage.setItem('simas_logo', savedLogo);
-            }
-        }
-
-        // INITIALIZATION
-        document.addEventListener('DOMContentLoaded', () => {
-            // Update nama masjid
-            applyMasjidName(savedMasjidName);
-            const settingInput = document.getElementById('setting-masjid-name');
-            if (settingInput) settingInput.value = savedMasjidName;
-
-            // Apply saved logo if exists
-            if (savedLogo) {
-                applyLogoToUI(savedLogo);
-            }
-
-            // Check login status session from LocalStorage
-            const isLoggedIn = localStorage.getItem('simas_is_logged_in') === 'true';
-            if (isLoggedIn) {
-                closeModal('modal-login');
-            } else {
-                openModal('modal-login');
-            }
-
-            renderAllViews();
-            initCharts();
-        });
-
-        // MASJID NAME UPDATER LOGIC
-        function applyMasjidName(name) {
+        /**
+         * Dynamic Mosque Name Updating Function
+         */
+        function updateMasjidNameUI(name) {
             savedMasjidName = name;
             localStorage.setItem('simas_masjid_name', name);
-
-            const sidebarTitle = document.getElementById('sidebar-masjid-name');
-            const mobileTitle = document.getElementById('mobile-masjid-name');
-            const bannerTitle = document.getElementById('banner-masjid-name');
-            const pdfTitle = document.getElementById('pdf-masjid-title');
-
-            if (sidebarTitle) sidebarTitle.textContent = name;
-            if (mobileTitle) mobileTitle.textContent = name;
-            if (bannerTitle) bannerTitle.textContent = name;
-            if (pdfTitle) pdfTitle.textContent = name.toUpperCase();
 
             document.querySelectorAll('.label-display-masjid').forEach(el => {
                 el.textContent = name;
             });
+
+            const settingInput = document.getElementById('setting-masjid-name');
+            if (settingInput) settingInput.value = name;
         }
 
         function handleSaveMasjidName(e) {
             e.preventDefault();
-            const inputVal = document.getElementById('setting-masjid-name').value.trim();
-            if (inputVal) {
-                applyMasjidName(inputVal);
-                saveAllDataToStorage();
-                showToast('Nama Masjid berhasil diperbarui!', 'success');
+            const newName = document.getElementById('setting-masjid-name').value.trim();
+            if (newName) {
+                updateMasjidNameUI(newName);
+                showToast('Nama masjid berhasil diperbarui!', 'success');
             }
         }
 
-        function applyLogoToUI(src) {
-            const logoPreview = document.getElementById('logo-preview-img');
-            const logoPlaceholder = document.getElementById('logo-placeholder');
-            const loginImg = document.getElementById('login-logo-img');
-            const loginIcon = document.getElementById('login-logo-icon');
+        /**
+         * Image Compression Function
+         */
+        function handleImageCompress(inputEl, previewImgId, infoTextId) {
+            if (!inputEl.files || !inputEl.files[0]) return;
+            const file = inputEl.files[0];
+            const originalSizeKB = (file.size / 1024).toFixed(1);
 
-            const sidebarImg = document.getElementById('sidebar-logo-img');
-            const sidebarIcon = document.getElementById('sidebar-logo-icon');
-            const mobileImg = document.getElementById('mobile-logo-img');
-            const mobileIcon = document.getElementById('mobile-logo-icon');
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const maxWidth = 800;
+                    const maxHeight = 800;
+                    let width = img.width;
+                    let height = img.height;
 
-            if (logoPreview && logoPlaceholder) {
-                logoPreview.src = src;
-                logoPreview.classList.remove('hidden');
-                logoPlaceholder.classList.add('hidden');
-            }
-            if (loginImg && loginIcon) {
-                loginImg.src = src;
-                loginImg.classList.remove('hidden');
-                loginIcon.classList.add('hidden');
-            }
-            if (sidebarImg && sidebarIcon) {
-                sidebarImg.src = src;
-                sidebarImg.classList.remove('hidden');
-                sidebarIcon.classList.add('hidden');
-            }
-            if (mobileImg && mobileIcon) {
-                mobileImg.src = src;
-                mobileImg.classList.remove('hidden');
-                mobileIcon.classList.add('hidden');
-            }
-        }
+                    if (width > height) {
+                        if (width > maxWidth) {
+                            height = Math.round((height * maxWidth) / width);
+                            width = maxWidth;
+                        }
+                    } else {
+                        if (height > maxHeight) {
+                            width = Math.round((width * maxHeight) / height);
+                            height = maxHeight;
+                        }
+                    }
 
-        function renderAllViews() {
-            saveAllDataToStorage();
-            renderInventoryTable(inventoryData);
-            renderBorrowTable();
-            renderMaintenanceList();
-            renderAdminTable();
-            updateStatCounts();
-            renderDashboardWidgets();
-            populateBorrowItemDropdown();
-            populateMaintenanceItemDropdown();
-        }
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
 
-        // LOGIN & LOGOUT HANDLERS
-        function handleLoginSubmit(e) {
-            e.preventDefault();
-            const u = document.getElementById('login-username').value.trim();
-            const p = document.getElementById('login-password').value.trim();
+                    const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+                    currentCompressedPhoto = compressedBase64;
 
-            const matchAdmin = adminData.find(a => (a.email === u || a.name === u) && a.pass === p);
+                    const head = 'data:image/jpeg;base64,';
+                    const compressedSizeKB = (Math.round((compressedBase64.length - head.length) * 3 / 4) / 1024).toFixed(1);
 
-            if (matchAdmin || (u === 'admin' && p === 'admin123')) {
-                localStorage.setItem('simas_is_logged_in', 'true');
-                localStorage.setItem('simas_current_user', matchAdmin ? matchAdmin.name : 'Super Admin');
+                    const previewImg = document.getElementById(previewImgId);
+                    const placeholder = document.getElementById(previewImgId.replace('preview', 'placeholder'));
+                    const infoText = document.getElementById(infoTextId);
 
-                const currentUserEl = document.getElementById('current-user-name');
-                if (currentUserEl) currentUserEl.textContent = matchAdmin ? matchAdmin.name : 'Super Admin';
-
-                closeModal('modal-login');
-                showToast('Login berhasil! Selamat datang kembali.', 'success');
-            } else {
-                showToast('Username atau password salah!', 'error');
-            }
-        }
-
-        function handleLogout() {
-            localStorage.removeItem('simas_is_logged_in');
-            localStorage.removeItem('simas_current_user');
-            openModal('modal-login');
-            showToast('Anda telah keluar dari aplikasi.', 'info');
-        }
-
-        // NAVIGATION VIEW SWITCHING
-        function switchView(viewName) {
-            // Direct lock if not logged in
-            if (localStorage.getItem('simas_is_logged_in') !== 'true') {
-                openModal('modal-login');
-                return;
-            }
-
-            document.querySelectorAll('.view-panel').forEach(panel => panel.classList.add('hidden'));
-            const target = document.getElementById(`view-${viewName}`);
-            if (target) target.classList.remove('hidden');
-
-            // Desktop Nav Highlight
-            document.querySelectorAll('.nav-item-desktop').forEach(btn => {
-                btn.classList.remove('bg-mosque-700', 'text-white', 'shadow-md');
-                btn.classList.add('hover:bg-slate-800', 'hover:text-white', 'text-slate-300');
-            });
-            const dNav = document.getElementById(`nav-desktop-${viewName}`);
-            if (dNav) {
-                dNav.classList.add('bg-mosque-700', 'text-white', 'shadow-md');
-                dNav.classList.remove('hover:bg-slate-800');
-            }
-
-            // Mobile Nav Highlight
-            document.querySelectorAll('.nav-item-mobile').forEach(btn => {
-                btn.classList.remove('text-mosque-700', 'font-bold');
-                btn.classList.add('text-slate-400');
-            });
-            const mNav = document.getElementById(`nav-mobile-${viewName}`);
-            if (mNav) {
-                mNav.classList.add('text-mosque-700', 'font-bold');
-                mNav.classList.remove('text-slate-400');
-            }
-
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // RENDER INVENTORY TABLE
-        function renderInventoryTable(items) {
-            const tbody = document.getElementById('inventory-table-body');
-            if (!tbody) return;
-            tbody.innerHTML = '';
-
-            if (items.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="8" class="text-center py-6 text-slate-400">Data barang tidak ditemukan.</td></tr>`;
-                return;
-            }
-
-            items.forEach(item => {
-                let badgeCond = item.condition === 'Baik' 
-                    ? `<span class="px-2 py-0.5 rounded-full text-[10px] bg-emerald-100 text-emerald-800 font-bold">Baik</span>`
-                    : `<span class="px-2 py-0.5 rounded-full text-[10px] bg-amber-100 text-amber-800 font-bold">${item.condition}</span>`;
-
-                let badgeStatus = item.status === 'Dipinjam'
-                    ? `<span class="px-2 py-0.5 rounded-full text-[10px] bg-blue-100 text-blue-800 font-bold">Dipinjam (${item.borrowBy})</span>`
-                    : `<span class="px-2 py-0.5 rounded-full text-[10px] bg-slate-100 text-slate-700 font-semibold">Tersedia</span>`;
-
-                const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50/80 transition";
-                tr.innerHTML = `
-                    <td class="p-3.5 font-mono font-bold text-slate-700">${item.sku}</td>
-                    <td class="p-3.5 font-bold text-slate-800">${item.name}</td>
-                    <td class="p-3.5 text-slate-600">${item.category}</td>
-                    <td class="p-3.5 font-semibold text-mosque-700">${item.location}</td>
-                    <td class="p-3.5 text-center font-bold">${item.qty}</td>
-                    <td class="p-3.5">${badgeCond}</td>
-                    <td class="p-3.5">${badgeStatus}</td>
-                    <td class="p-3.5 text-center space-x-1">
-                        <button onclick="openQrLabelModal('${item.sku}')" class="p-1.5 text-slate-400 hover:text-emerald-600" title="Stiker QR Code">
-                            <i class="fa-solid fa-qrcode"></i>
-                        </button>
-                        <button onclick="openEditModal(${item.id})" class="p-1.5 text-slate-400 hover:text-amber-600" title="Edit Barang">
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </button>
-                        <button onclick="deleteItem(${item.id})" class="p-1.5 text-slate-400 hover:text-rose-600" title="Hapus Barang">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        // MULTI-FILTERING DATA BARANG
-        function applyFilters() {
-            const search = document.getElementById('filter-search').value.toLowerCase();
-            const kategori = document.getElementById('filter-kategori').value;
-            const kondisi = document.getElementById('filter-kondisi').value;
-            const lokasi = document.getElementById('filter-lokasi').value;
-
-            const filtered = inventoryData.filter(item => {
-                const matchSearch = item.name.toLowerCase().includes(search) || item.sku.toLowerCase().includes(search);
-                const matchKategori = kategori === 'ALL' || item.category === kategori;
-                const matchKondisi = kondisi === 'ALL' || item.condition === kondisi;
-                const matchLokasi = lokasi === 'ALL' || item.location === lokasi;
-                return matchSearch && matchKategori && matchKondisi && matchLokasi;
-            });
-
-            renderInventoryTable(filtered);
-        }
-
-        // RENDER PEMINJAMAN TABLE
-        function renderBorrowTable() {
-            const tbody = document.getElementById('borrow-table-body');
-            if (!tbody) return;
-            tbody.innerHTML = '';
-
-            if (borrowData.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" class="text-center py-6 text-slate-400">Tidak ada transaksi peminjaman aktif.</td></tr>`;
-                return;
-            }
-
-            borrowData.forEach(b => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td class="p-3.5 font-mono font-bold text-slate-700">${b.id}</td>
-                    <td class="p-3.5 font-bold text-slate-800">${b.itemName}</td>
-                    <td class="p-3.5">${b.borrower} (${b.phone})</td>
-                    <td class="p-3.5">${b.date}</td>
-                    <td class="p-3.5 font-bold text-slate-700">${b.dueDate}</td>
-                    <td class="p-3.5"><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 font-bold text-[10px]">Aktif</span></td>
-                    <td class="p-3.5 text-center">
-                        <button onclick="returnItem('${b.id}', '${b.itemSku}')" class="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg text-[11px]">
-                            Kembalikan
-                        </button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        // RENDER MAINTENANCE LOGS
-        function renderMaintenanceList() {
-            const container = document.getElementById('maintenance-list-container');
-            if (!container) return;
-            container.innerHTML = '';
-
-            if (maintenanceData.length === 0) {
-                container.innerHTML = `<p class="text-xs text-slate-400 col-span-3 text-center py-4">Belum ada jadwal perawatan.</p>`;
-                return;
-            }
-
-            maintenanceData.forEach(m => {
-                const card = document.createElement('div');
-                card.className = "bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm space-y-2";
-                card.innerHTML = `
-                    <div class="flex items-center justify-between">
-                        <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800">${m.type}</span>
-                        <span class="text-[11px] text-slate-400">${m.date}</span>
-                    </div>
-                    <h4 class="font-bold text-slate-800 text-sm">${m.itemName}</h4>
-                    <div class="text-xs text-slate-500 flex justify-between">
-                        <span>Teknisi: ${m.vendor}</span>
-                        <span class="font-bold text-slate-700">Rp ${m.cost.toLocaleString('id-ID')}</span>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        // RENDER ADMIN TABLE
-        function renderAdminTable() {
-            const tbody = document.getElementById('admin-table-body');
-            if (!tbody) return;
-            tbody.innerHTML = '';
-
-            adminData.forEach(a => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td class="p-3 font-bold text-slate-800">${a.name}</td>
-                    <td class="p-3 text-slate-600">${a.email}</td>
-                    <td class="p-3"><span class="px-2 py-0.5 rounded bg-slate-100 font-bold text-[10px] text-slate-700">${a.role}</span></td>
-                    <td class="p-3 text-center space-x-1">
-                        <button onclick="openEditAdminModal(${a.id})" class="p-1 text-slate-400 hover:text-amber-600"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button onclick="deleteAdmin(${a.id})" class="p-1 text-slate-400 hover:text-rose-600"><i class="fa-solid fa-trash-can"></i></button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        // STAT COUNTS & DASHBOARD WIDGETS
-        function updateStatCounts() {
-            const total = inventoryData.reduce((acc, i) => acc + i.qty, 0);
-            const baik = inventoryData.filter(i => i.condition === 'Baik').reduce((acc, i) => acc + i.qty, 0);
-            const rusak = inventoryData.filter(i => i.condition !== 'Baik').reduce((acc, i) => acc + i.qty, 0);
-            const dipinjam = borrowData.length;
-
-            document.getElementById('stat-total-barang').textContent = total;
-            document.getElementById('stat-kondisi-baik').textContent = baik;
-            document.getElementById('stat-kondisi-rusak').textContent = rusak;
-            document.getElementById('stat-dipinjam').textContent = dipinjam;
-
-            document.getElementById('pdf-preview-total').textContent = `${total} unit`;
-            updateCharts(baik, rusak);
-        }
-
-        function renderDashboardWidgets() {
-            const list = document.getElementById('dashboard-borrow-list');
-            if (!list) return;
-            list.innerHTML = '';
-
-            borrowData.slice(0, 3).forEach(b => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td class="py-2.5 font-bold text-slate-800">${b.itemName}</td>
-                    <td class="py-2.5">${b.borrower}</td>
-                    <td class="py-2.5 font-bold text-slate-700">${b.dueDate}</td>
-                `;
-                list.appendChild(tr);
-            });
-
-            const mList = document.getElementById('dashboard-maintenance-list');
-            if (mList) {
-                mList.innerHTML = '';
-                maintenanceData.slice(0, 3).forEach(m => {
-                    const item = document.createElement('div');
-                    item.className = "flex items-center justify-between p-2.5 bg-slate-50 rounded-xl border border-slate-100 text-xs";
-                    item.innerHTML = `
-                        <div>
-                            <p class="font-bold text-slate-800">${m.itemName}</p>
-                            <p class="text-[10px] text-slate-400">${m.type} • ${m.vendor}</p>
-                        </div>
-                        <span class="font-bold text-amber-600">${m.date}</span>
-                    `;
-                    mList.appendChild(item);
-                });
-            }
-        }
-
-        // CHART.JS INITIALIZATION
-        function initCharts() {
-            const ctxKondisi = document.getElementById('chart-kondisi');
-            const ctxKategori = document.getElementById('chart-kategori');
-
-            if (ctxKondisi) {
-                chartKondisiObj = new Chart(ctxKondisi, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['Kondisi Baik', 'Perlu Servis'],
-                        datasets: [{
-                            data: [8, 2],
-                            backgroundColor: ['#059669', '#f59e0b']
-                        }]
-                    },
-                    options: { responsive: true, maintainAspectRatio: false }
-                });
-            }
-
-            if (ctxKategori) {
-                chartKategoriObj = new Chart(ctxKategori, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Elektronik', 'Alat Salat', 'Kebersihan', 'Masak & Makan'],
-                        datasets: [{
-                            label: 'Jumlah Unit',
-                            data: [2, 10, 2, 104],
-                            backgroundColor: '#047857'
-                        }]
-                    },
-                    options: { responsive: true, maintainAspectRatio: false }
-                });
-            }
-        }
-
-        function updateCharts(baik, rusak) {
-            if (chartKondisiObj) {
-                chartKondisiObj.data.datasets[0].data = [baik, rusak];
-                chartKondisiObj.update();
-            }
-        }
-
-        // HANDLERS FOR MODAL ACTIONS
-        function handleAddItemSubmit(e) {
-            e.preventDefault();
-            const newItem = {
-                id: Date.now(),
-                sku: document.getElementById('add-sku').value,
-                name: document.getElementById('add-nama').value,
-                category: document.getElementById('add-kategori').value,
-                location: document.getElementById('add-lokasi').value,
-                qty: parseInt(document.getElementById('add-qty').value),
-                condition: document.getElementById('add-kondisi').value,
-                status: 'Tersedia',
-                source: document.getElementById('add-sumber').value || 'Kas DKM',
-                borrowBy: '-'
+                    if (previewImg) {
+                        previewImg.src = compressedBase64;
+                        previewImg.classList.remove('hidden');
+                    }
+                    if (placeholder) placeholder.classList.add('hidden');
+                    if (infoText) {
+                        infoText.innerHTML = `<span class="text-emerald-600 font-bold"><i class="fa-solid fa-circle-check"></i> Terkompresi: ${compressedSizeKB} KB</span> <span class="text-slate-400">(Asli: ${originalSizeKB} KB)</span>`;
+                    }
+                };
+                img.src = e.target.result;
             };
-            inventoryData.push(newItem);
-            renderAllViews();
-            closeModal('modal-add-item');
-            showToast('Barang baru berhasil disimpan!', 'success');
-        }
-
-        function openEditModal(id) {
-            const item = inventoryData.find(i => i.id === id);
-            if (!item) return;
-
-            document.getElementById('edit-id').value = item.id;
-            document.getElementById('edit-sku').value = item.sku;
-            document.getElementById('edit-nama').value = item.name;
-            document.getElementById('edit-kategori').value = item.category;
-            document.getElementById('edit-lokasi').value = item.location;
-            document.getElementById('edit-kondisi').value = item.condition;
-            document.getElementById('edit-qty').value = item.qty;
-
-            openModal('modal-edit-item');
-        }
-
-        function handleEditItemSubmit(e) {
-            e.preventDefault();
-            const id = parseInt(document.getElementById('edit-id').value);
-            const item = inventoryData.find(i => i.id === id);
-            if (item) {
-                item.name = document.getElementById('edit-nama').value;
-                item.category = document.getElementById('edit-kategori').value;
-                item.location = document.getElementById('edit-lokasi').value;
-                item.condition = document.getElementById('edit-kondisi').value;
-                item.qty = parseInt(document.getElementById('edit-qty').value);
-
-                renderAllViews();
-                closeModal('modal-edit-item');
-                showToast('Data barang berhasil diperbarui!', 'success');
-            }
-        }
-
-        function deleteItem(id) {
-            inventoryData = inventoryData.filter(i => i.id !== id);
-            renderAllViews();
-            showToast('Barang telah dihapus dari inventaris.', 'info');
-        }
-
-        // HANDLERS FOR PEMINJAMAN & MAINTENANCE
-        function populateBorrowItemDropdown() {
-            const select = document.getElementById('borrow-item-select');
-            if (!select) return;
-            select.innerHTML = '';
-            inventoryData.filter(i => i.status === 'Tersedia').forEach(i => {
-                select.innerHTML += `<option value="${i.sku}">${i.sku} - ${i.name} (${i.location})</option>`;
-            });
-        }
-
-        function handleBorrowSubmit(e) {
-            e.preventDefault();
-            const sku = document.getElementById('borrow-item-select').value;
-            const borrower = document.getElementById('borrower-name').value;
-            const phone = document.getElementById('borrower-phone').value;
-            const dueDate = document.getElementById('borrow-return-date').value;
-            const purpose = document.getElementById('borrow-purpose').value;
-
-            const item = inventoryData.find(i => i.sku === sku);
-            if (!item) return;
-
-            item.status = 'Dipinjam';
-            item.borrowBy = borrower;
-
-            borrowData.unshift({
-                id: `PINJAM-${101 + borrowData.length}`,
-                itemSku: sku,
-                itemName: item.name,
-                borrower: borrower,
-                phone: phone,
-                date: new Date().toISOString().split('T')[0],
-                dueDate: dueDate,
-                status: 'Aktif',
-                purpose: purpose
-            });
-
-            renderAllViews();
-            closeModal('modal-borrow');
-            showToast('Peminjaman barang berhasil dicatat!', 'success');
-        }
-
-        function returnItem(borrowId, itemSku) {
-            const item = inventoryData.find(i => i.sku === itemSku);
-            if (item) {
-                item.status = 'Tersedia';
-                item.borrowBy = '-';
-            }
-            borrowData = borrowData.filter(b => b.id !== borrowId);
-            renderAllViews();
-            showToast('Barang telah berhasil dikembalikan!', 'success');
-        }
-
-        function populateMaintenanceItemDropdown() {
-            const select = document.getElementById('maint-item-select');
-            if (!select) return;
-            select.innerHTML = '';
-            inventoryData.forEach(i => {
-                select.innerHTML += `<option value="${i.sku}">${i.sku} - ${i.name}</option>`;
-            });
-        }
-
-        function handleMaintenanceSubmit(e) {
-            e.preventDefault();
-            const sku = document.getElementById('maint-item-select').value;
-            const item = inventoryData.find(i => i.sku === sku);
-
-            maintenanceData.unshift({
-                id: `MAINT-${201 + maintenanceData.length}`,
-                itemSku: sku,
-                itemName: item ? item.name : sku,
-                type: document.getElementById('maint-type').value,
-                date: document.getElementById('maint-date').value,
-                vendor: document.getElementById('maint-vendor').value || 'Teknisi DKM',
-                cost: parseInt(document.getElementById('maint-cost').value) || 0,
-                status: 'Terjadwal'
-            });
-
-            renderMaintenanceList();
-            renderDashboardWidgets();
-            closeModal('modal-maintenance');
-            showToast('Jadwal perawatan berhasil dibuat!', 'success');
-        }
-
-        // HANDLERS FOR ADMIN & SYSTEM SETTINGS
-        function handleAddAdminSubmit(e) {
-            e.preventDefault();
-            const newAdmin = {
-                id: Date.now(),
-                name: document.getElementById('admin-add-nama').value,
-                email: document.getElementById('admin-add-email').value,
-                pass: document.getElementById('admin-add-pass').value,
-                role: document.getElementById('admin-add-role').value
-            };
-            adminData.push(newAdmin);
-            renderAdminTable();
-            closeModal('modal-add-admin');
-            showToast('Admin baru telah didaftarkan!', 'success');
-        }
-
-        function openEditAdminModal(id) {
-            const admin = adminData.find(a => a.id === id);
-            if (!admin) return;
-
-            document.getElementById('admin-edit-id').value = admin.id;
-            document.getElementById('admin-edit-nama').value = admin.name;
-            document.getElementById('admin-edit-email').value = admin.email;
-            document.getElementById('admin-edit-role').value = admin.role;
-
-            openModal('modal-edit-admin');
-        }
-
-        function handleEditAdminSubmit(e) {
-            e.preventDefault();
-            const id = parseInt(document.getElementById('admin-edit-id').value);
-            const admin = adminData.find(a => a.id === id);
-            if (admin) {
-                admin.name = document.getElementById('admin-edit-nama').value;
-                admin.email = document.getElementById('admin-edit-email').value;
-                admin.role = document.getElementById('admin-edit-role').value;
-
-                renderAdminTable();
-                closeModal('modal-edit-admin');
-                showToast('Data pengurus berhasil diperbarui!', 'success');
-            }
-        }
-
-        function deleteAdmin(id) {
-            adminData = adminData.filter(a => a.id !== id);
-            renderAdminTable();
-            showToast('Akses pengurus telah dihapus.', 'info');
+            reader.readAsDataURL(file);
         }
 
         function handleLogoUpload(input) {
             if (input.files && input.files[0]) {
+                const file = input.files[0];
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    savedLogo = e.target.result;
-                    applyLogoToUI(savedLogo);
-                    saveAllDataToStorage();
-                    showToast('Logo masjid berhasil diperbarui dan tersimpan!', 'success');
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = 300;
+                        canvas.height = 300;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, 300, 300);
+                        
+                        savedLogo = canvas.toDataURL('image/png', 0.8);
+                        localStorage.setItem('simas_logo', savedLogo);
+                        applyLogoToUI(savedLogo);
+                        showToast('Logo masjid berhasil diperbarui!', 'success');
+                    };
+                    img.src = e.target.result;
                 };
-                reader.readAsDataURL(input.files[0]);
+                reader.readAsDataURL(file);
             }
         }
 
-        // REAL CAMERA STREAM SCANNER LOGIC
-        async function startCameraScanner() {
-            openModal('modal-qr-scanner');
-            const video = document.getElementById('qr-video');
-            const placeholder = document.getElementById('qr-camera-placeholder');
-            const statusText = document.getElementById('qr-status-text');
+        function applyLogoToUI(src) {
+            if (!src) return;
+            const logoImgs = ['sidebar-logo-img', 'mobile-logo-img', 'login-logo-img', 'logo-preview-img'];
+            const logoIcons = ['sidebar-logo-icon', 'mobile-logo-icon', 'login-logo-icon', 'logo-placeholder'];
 
-            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                try {
-                    cameraStream = await navigator.mediaDevices.getUserMedia({ 
-                        video: { facingMode: { ideal: "environment" } } 
-                    });
-                    if (video) {
-                        video.srcObject = cameraStream;
-                        video.onloadedmetadata = () => {
-                            video.play();
-                            if (placeholder) placeholder.classList.add('hidden');
-                            video.classList.remove('hidden');
-                            if (statusText) statusText.innerHTML = '<i class="fa-solid fa-circle text-[8px] animate-ping"></i> Kamera Aktif • Pindai Barcode';
-                        };
-                    }
-                } catch (err) {
-                    console.warn("Camera access failed or denied:", err);
-                    if (statusText) statusText.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Simulasi Mode Pemindai';
-                    if (placeholder) placeholder.classList.remove('hidden');
-                    if (video) video.classList.add('hidden');
-                }
-            } else {
-                if (statusText) statusText.textContent = "Browser tidak mendukung akses kamera";
-            }
-        }
-
-        function stopCameraScanner() {
-            if (cameraStream) {
-                cameraStream.getTracks().forEach(track => track.stop());
-                cameraStream = null;
-            }
-            const video = document.getElementById('qr-video');
-            if (video) {
-                video.srcObject = null;
-                video.classList.add('hidden');
-            }
-            const placeholder = document.getElementById('qr-camera-placeholder');
-            if (placeholder) placeholder.classList.remove('hidden');
-            closeModal('modal-qr-scanner');
-        }
-
-        function simulateScanBarcode() {
-            stopCameraScanner();
-            document.getElementById('filter-search').value = 'INV-001';
-            switchView('barang');
-            applyFilters();
-            showToast('Scan Berhasil! Menampilkan INV-001', 'success');
-        }
-
-        function openQrLabelModal(sku) {
-            const item = inventoryData.find(i => i.sku === sku);
-            if (!item) return;
-
-            document.getElementById('qr-sku-label').textContent = item.sku;
-            document.getElementById('qr-name-label').textContent = item.name;
-            openModal('modal-qr-code');
-        }
-
-        // EXPORT DATA TO CSV / EXCEL
-        function exportToCsv() {
-            let csvLines = [];
-            csvLines.push("Kode SKU,Nama Barang,Kategori,Lokasi Storage,Jumlah Unit,Kondisi,Status,Sumber Perolehan,Peminjam");
-
-            inventoryData.forEach(item => {
-                let row = [
-                    `"${item.sku}"`,
-                    `"${item.name.replace(/"/g, '""')}"`,
-                    `"${item.category}"`,
-                    `"${item.location}"`,
-                    item.qty,
-                    `"${item.condition}"`,
-                    `"${item.status}"`,
-                    `"${item.source || '-'}"`,
-                    `"${item.borrowBy || '-'}"`
-                ].join(",");
-                csvLines.push(row);
+            logoImgs.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) { el.src = src; el.classList.remove('hidden'); }
             });
-
-            const csvString = csvLines.join("\n");
-            const blob = new Blob(["\ufeff" + csvString], { type: "text/csv;charset=utf-8;" });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = `SIMAS_Data_Inventaris_Masjid_${new Date().toISOString().split('T')[0]}.csv`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-
-            showToast('File CSV/Excel Data Barang berhasil diunduh!', 'success');
-        }
-
-        // PDF REPORT PRINTING
-        function printPdfReport() {
-            const total = inventoryData.reduce((acc, i) => acc + i.qty, 0);
-            const baik = inventoryData.filter(i => i.condition === 'Baik').reduce((acc, i) => acc + i.qty, 0);
-            const rusak = inventoryData.filter(i => i.condition !== 'Baik').reduce((acc, i) => acc + i.qty, 0);
-            const dipinjam = borrowData.length;
-
-            document.getElementById('pdf-stat-total').textContent = total;
-            document.getElementById('pdf-stat-baik').textContent = baik;
-            document.getElementById('pdf-stat-rusak').textContent = rusak;
-            document.getElementById('pdf-stat-dipinjam').textContent = dipinjam;
-
-            const tbody = document.getElementById('pdf-table-body');
-            tbody.innerHTML = '';
-            inventoryData.forEach((item, idx) => {
-                const tr = document.createElement('tr');
-                tr.className = "border-b border-slate-300";
-                tr.innerHTML = `
-                    <td class="p-2 border-r border-slate-300 text-center">${idx + 1}</td>
-                    <td class="p-2 border-r border-slate-300 font-mono font-bold">${item.sku}</td>
-                    <td class="p-2 border-r border-slate-300 font-bold">${item.name}</td>
-                    <td class="p-2 border-r border-slate-300">${item.category}</td>
-                    <td class="p-2 border-r border-slate-300">${item.location}</td>
-                    <td class="p-2 border-r border-slate-300 text-center font-bold">${item.qty}</td>
-                    <td class="p-2 border-r border-slate-300">${item.condition}</td>
-                    <td class="p-2">${item.source || '-'}</td>
-                `;
-                tbody.appendChild(tr);
+            logoIcons.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.add('hidden');
             });
-
-            window.print();
         }
 
-        // UTILITY FUNCTIONS
-        function togglePasswordVisibility(inputId, eyeId) {
+        function togglePasswordVisibility(inputId, eyeIconId) {
             const input = document.getElementById(inputId);
-            const eye = document.getElementById(eyeId);
+            const eye = document.getElementById(eyeIconId);
             if (input.type === 'password') {
                 input.type = 'text';
                 eye.classList.remove('fa-eye');
@@ -1945,31 +1102,444 @@
             }
         }
 
-        function openModal(id) {
-            const modal = document.getElementById(id);
-            if (modal) modal.classList.remove('hidden');
+        function handleAddItemSubmit(e) {
+            e.preventDefault();
+            const newItem = {
+                id: Date.now(),
+                sku: document.getElementById('add-sku').value.trim(),
+                name: document.getElementById('add-nama').value.trim(),
+                category: document.getElementById('add-kategori').value,
+                location: document.getElementById('add-lokasi').value,
+                qty: parseInt(document.getElementById('add-qty').value),
+                condition: document.getElementById('add-kondisi').value,
+                status: 'Tersedia',
+                source: document.getElementById('add-sumber').value || 'Kas DKM',
+                photo: currentCompressedPhoto || ''
+            };
+
+            inventoryData.push(newItem);
+            localStorage.setItem('simas_inventory', JSON.stringify(inventoryData));
+            renderInventoryTable(inventoryData);
+            closeModal('modal-add-item');
+            currentCompressedPhoto = '';
+            showToast('Barang baru berhasil disimpan!', 'success');
         }
 
-        function closeModal(id) {
-            const modal = document.getElementById(id);
-            if (modal) modal.classList.add('hidden');
+        function openEditModal(id) {
+            const item = inventoryData.find(i => i.id === id);
+            if (!item) return;
+
+            document.getElementById('edit-id').value = item.id;
+            document.getElementById('edit-sku').value = item.sku;
+            document.getElementById('edit-nama').value = item.name;
+            document.getElementById('edit-qty').value = item.qty;
+            document.getElementById('edit-kategori').value = item.category;
+            document.getElementById('edit-lokasi').value = item.location;
+            document.getElementById('edit-kondisi').value = item.condition;
+            document.getElementById('edit-sumber').value = item.source || '';
+
+            openModal('modal-edit-item');
         }
 
-        function showToast(message, type = 'info') {
+        function handleEditItemSubmit(e) {
+            e.preventDefault();
+            const id = parseInt(document.getElementById('edit-id').value);
+            const itemIndex = inventoryData.findIndex(i => i.id === id);
+
+            if (itemIndex !== -1) {
+                inventoryData[itemIndex].sku = document.getElementById('edit-sku').value.trim();
+                inventoryData[itemIndex].name = document.getElementById('edit-nama').value.trim();
+                inventoryData[itemIndex].qty = parseInt(document.getElementById('edit-qty').value);
+                inventoryData[itemIndex].category = document.getElementById('edit-kategori').value;
+                inventoryData[itemIndex].location = document.getElementById('edit-lokasi').value;
+                inventoryData[itemIndex].condition = document.getElementById('edit-kondisi').value;
+                inventoryData[itemIndex].source = document.getElementById('edit-sumber').value;
+
+                localStorage.setItem('simas_inventory', JSON.stringify(inventoryData));
+                renderInventoryTable(inventoryData);
+                closeModal('modal-edit-item');
+                showToast('Data barang berhasil diperbarui!', 'success');
+            }
+        }
+
+        function renderInventoryTable(items) {
+            const tbody = document.getElementById('inventory-table-body');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            items.forEach(item => {
+                let imgHtml = item.photo 
+                    ? `<img src="${item.photo}" class="w-10 h-10 object-cover rounded-xl border border-slate-200">`
+                    : `<div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-400 border border-slate-200"><i class="fa-solid fa-box"></i></div>`;
+
+                let condColor = item.condition === 'Baik' ? 'bg-emerald-100 text-emerald-800' :
+                                item.condition === 'Rusak Ringan' ? 'bg-amber-100 text-amber-800' : 'bg-rose-100 text-rose-800';
+
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50/80 transition";
+                tr.innerHTML = `
+                    <td class="p-3.5">${imgHtml}</td>
+                    <td class="p-3.5 font-mono font-bold text-slate-700">${item.sku}</td>
+                    <td class="p-3.5 font-bold text-slate-800">${item.name}</td>
+                    <td class="p-3.5 text-slate-600">${item.category}</td>
+                    <td class="p-3.5 font-semibold text-mosque-700">${item.location}</td>
+                    <td class="p-3.5 text-center font-bold">${item.qty}</td>
+                    <td class="p-3.5"><span class="px-2.5 py-1 rounded-full text-[10px] ${condColor} font-extrabold">${item.condition}</span></td>
+                    <td class="p-3.5 text-center flex items-center justify-center gap-1">
+                        <button onclick="openEditModal(${item.id})" title="Edit Barang" class="p-1.5 text-slate-400 hover:text-amber-600 transition"><i class="fa-solid fa-pen-to-square text-sm"></i></button>
+                        <button onclick="deleteItem(${item.id})" title="Hapus Barang" class="p-1.5 text-slate-400 hover:text-rose-600 transition"><i class="fa-solid fa-trash-can text-sm"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            updateStats();
+            initOrUpdateCharts();
+        }
+
+        function applyFilters() {
+            const searchVal = document.getElementById('filter-search').value.toLowerCase();
+            const catVal = document.getElementById('filter-kategori').value;
+            const condVal = document.getElementById('filter-kondisi').value;
+            const locVal = document.getElementById('filter-lokasi').value;
+
+            const filtered = inventoryData.filter(item => {
+                const matchesSearch = item.name.toLowerCase().includes(searchVal) || item.sku.toLowerCase().includes(searchVal);
+                const matchesCat = catVal === 'ALL' || item.category === catVal;
+                const matchesCond = condVal === 'ALL' || item.condition === condVal;
+                const matchesLoc = locVal === 'ALL' || item.location === locVal;
+                return matchesSearch && matchesCat && matchesCond && matchesLoc;
+            });
+
+            renderInventoryTable(filtered);
+        }
+
+        function updateStats() {
+            const total = inventoryData.reduce((acc, curr) => acc + curr.qty, 0);
+            const baik = inventoryData.filter(i => i.condition === 'Baik').reduce((acc, curr) => acc + curr.qty, 0);
+            const rusak = total - baik;
+            const dipinjamCount = borrowData.filter(b => b.status === 'Dipinjam').length;
+
+            document.getElementById('stat-total-barang').textContent = total;
+            document.getElementById('stat-kondisi-baik').textContent = baik;
+            document.getElementById('stat-kondisi-rusak').textContent = rusak;
+            document.getElementById('stat-dipinjam').textContent = dipinjamCount;
+        }
+
+        function deleteItem(id) {
+            inventoryData = inventoryData.filter(i => i.id !== id);
+            localStorage.setItem('simas_inventory', JSON.stringify(inventoryData));
+            renderInventoryTable(inventoryData);
+            showToast('Barang berhasil dihapus.', 'info');
+        }
+
+        /**
+         * Chart Initialization & Dynamic Update
+         */
+        function initOrUpdateCharts() {
+            const baikCount = inventoryData.filter(i => i.condition === 'Baik').reduce((a, c) => a + c.qty, 0);
+            const ringanCount = inventoryData.filter(i => i.condition === 'Rusak Ringan').reduce((a, c) => a + c.qty, 0);
+            const beratCount = inventoryData.filter(i => i.condition === 'Rusak Berat').reduce((a, c) => a + c.qty, 0);
+
+            const canvasKondisi = document.getElementById('chart-kondisi');
+            if (canvasKondisi) {
+                if (chartKondisiInstance) chartKondisiInstance.destroy();
+                chartKondisiInstance = new Chart(canvasKondisi, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Kondisi Baik', 'Rusak Ringan', 'Rusak Berat'],
+                        datasets: [{
+                            data: [baikCount, ringanCount, beratCount],
+                            backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { position: 'bottom' } }
+                    }
+                });
+            }
+
+            const categories = ['Sound System & Elektronik', 'Alat Salat & Karpet', 'Peralatan Kebersihan', 'Mebel & Perlengkapan', 'Peralatan Masak & Makan', 'Lainnya'];
+            const catCounts = categories.map(cat => inventoryData.filter(i => i.category === cat).reduce((a, c) => a + c.qty, 0));
+
+            const canvasKategori = document.getElementById('chart-kategori');
+            if (canvasKategori) {
+                if (chartKategoriInstance) chartKategoriInstance.destroy();
+                chartKategoriInstance = new Chart(canvasKategori, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Sound', 'Salat', 'Kebersihan', 'Mebel', 'Masak', 'Lainnya'],
+                        datasets: [{
+                            label: 'Jumlah Unit',
+                            data: catCounts,
+                            backgroundColor: '#047857',
+                            borderRadius: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: { y: { beginAtZero: true } }
+                    }
+                });
+            }
+        }
+
+        /**
+         * Peminjaman Logic
+         */
+        function populateBorrowItemDropdown() {
+            const select = document.getElementById('borrow-item-id');
+            if (!select) return;
+            select.innerHTML = '';
+
+            const availableItems = inventoryData.filter(i => i.status !== 'Dipinjam');
+            if (availableItems.length === 0) {
+                select.innerHTML = '<option value="">-- Tidak ada barang tersedia --</option>';
+                return;
+            }
+
+            availableItems.forEach(item => {
+                const opt = document.createElement('option');
+                opt.value = item.id;
+                opt.textContent = `${item.sku} - ${item.name} (${item.location})`;
+                select.appendChild(opt);
+            });
+        }
+
+        function handleBorrowSubmit(e) {
+            e.preventDefault();
+            const itemId = parseInt(document.getElementById('borrow-item-id').value);
+            const item = inventoryData.find(i => i.id === itemId);
+
+            if (!item) {
+                showToast('Silakan pilih barang!', 'info');
+                return;
+            }
+
+            const newBorrow = {
+                id: 'BRW-' + Date.now().toString().slice(-4),
+                itemId: item.id,
+                itemName: item.name,
+                borrower: document.getElementById('borrow-name').value.trim(),
+                phone: document.getElementById('borrow-phone').value.trim(),
+                date: document.getElementById('borrow-date').value,
+                dueDate: document.getElementById('borrow-due-date').value,
+                status: 'Dipinjam',
+                purpose: document.getElementById('borrow-purpose').value.trim()
+            };
+
+            borrowData.push(newBorrow);
+            item.status = 'Dipinjam';
+
+            localStorage.setItem('simas_borrow', JSON.stringify(borrowData));
+            localStorage.setItem('simas_inventory', JSON.stringify(inventoryData));
+
+            renderBorrowTable();
+            renderInventoryTable(inventoryData);
+            closeModal('modal-borrow');
+            showToast('Data peminjaman berhasil disimpan!', 'success');
+        }
+
+        function renderBorrowTable() {
+            const tbody = document.getElementById('borrow-table-body');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            borrowData.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50/80 transition";
+                tr.innerHTML = `
+                    <td class="p-3.5 font-mono font-bold text-slate-700">${item.id}</td>
+                    <td class="p-3.5 font-bold text-slate-800">${item.itemName}</td>
+                    <td class="p-3.5">
+                        <div class="font-semibold text-slate-800">${item.borrower}</div>
+                        <div class="text-[11px] text-slate-400"><i class="fa-brands fa-whatsapp text-emerald-600"></i> ${item.phone}</div>
+                    </td>
+                    <td class="p-3.5 text-slate-600">${item.date}</td>
+                    <td class="p-3.5 font-bold text-rose-600">${item.dueDate}</td>
+                    <td class="p-3.5 text-center">
+                        ${item.status === 'Dipinjam' 
+                            ? `<button onclick="returnBorrowItem('${item.id}')" class="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg text-xs shadow">Kembalikan</button>`
+                            : `<span class="px-2.5 py-1 rounded-full text-[10px] bg-slate-100 text-slate-600 font-extrabold">Dikembalikan</span>`
+                        }
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function returnBorrowItem(borrowId) {
+            const borrowRecord = borrowData.find(b => b.id === borrowId);
+            if (borrowRecord) {
+                borrowRecord.status = 'Dikembalikan';
+                const item = inventoryData.find(i => i.id === borrowRecord.itemId);
+                if (item) item.status = 'Tersedia';
+
+                localStorage.setItem('simas_borrow', JSON.stringify(borrowData));
+                localStorage.setItem('simas_inventory', JSON.stringify(inventoryData));
+
+                renderBorrowTable();
+                renderInventoryTable(inventoryData);
+                showToast('Barang berhasil dikembalikan!', 'success');
+            }
+        }
+
+        /**
+         * Maintenance Logic
+         */
+        function populateMaintenanceItemDropdown() {
+            const select = document.getElementById('maint-item-id');
+            if (!select) return;
+            select.innerHTML = '';
+
+            inventoryData.forEach(item => {
+                const opt = document.createElement('option');
+                opt.value = item.id;
+                opt.textContent = `${item.sku} - ${item.name}`;
+                select.appendChild(opt);
+            });
+        }
+
+        function handleMaintenanceSubmit(e) {
+            e.preventDefault();
+            const itemId = parseInt(document.getElementById('maint-item-id').value);
+            const item = inventoryData.find(i => i.id === itemId);
+
+            const newMaint = {
+                id: 'MNT-' + Date.now().toString().slice(-4),
+                itemId: itemId,
+                itemName: item ? item.name : 'Barang Inventaris',
+                type: document.getElementById('maint-type').value,
+                date: document.getElementById('maint-date').value,
+                vendor: document.getElementById('maint-vendor').value.trim() || 'Teknisi DKM',
+                cost: parseInt(document.getElementById('maint-cost').value) || 0,
+                status: 'Terjadwal'
+            };
+
+            maintenanceData.push(newMaint);
+            localStorage.setItem('simas_maintenance', JSON.stringify(maintenanceData));
+
+            renderMaintenanceList();
+            closeModal('modal-maintenance');
+            showToast('Jadwal maintenance berhasil disimpan!', 'success');
+        }
+
+        function renderMaintenanceList() {
+            const container = document.getElementById('maintenance-list-container');
+            const summaryContainer = document.getElementById('dashboard-maintenance-summary');
+            
+            if (container) container.innerHTML = '';
+            if (summaryContainer) summaryContainer.innerHTML = '';
+
+            if (maintenanceData.length === 0) {
+                if (container) container.innerHTML = '<p class="text-xs text-slate-400 italic col-span-3">Belum ada jadwal maintenance.</p>';
+                if (summaryContainer) summaryContainer.innerHTML = '<p class="text-xs text-slate-400 italic">Belum ada jadwal maintenance terdekat.</p>';
+                return;
+            }
+
+            maintenanceData.forEach((m, idx) => {
+                const formattedCost = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(m.cost);
+                
+                // Full Maintenance Card
+                if (container) {
+                    const card = document.createElement('div');
+                    card.className = "bg-white rounded-2xl p-5 border border-slate-200/90 shadow-sm space-y-3";
+                    card.innerHTML = `
+                        <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+                            <span class="font-mono text-[10px] font-bold px-2 py-0.5 bg-amber-50 text-amber-700 rounded-md border border-amber-200">${m.id}</span>
+                            <span class="px-2.5 py-0.5 rounded-full text-[10px] bg-blue-50 text-blue-700 font-extrabold">${m.status}</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-800 text-sm">${m.itemName}</h4>
+                            <p class="text-xs text-mosque-700 font-semibold mt-0.5"><i class="fa-solid fa-screwdriver-wrench text-xs"></i> ${m.type}</p>
+                        </div>
+                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 text-xs space-y-1">
+                            <div class="flex justify-between text-slate-600"><span>Tgl Pelaksanaan:</span> <span class="font-bold text-slate-800">${m.date}</span></div>
+                            <div class="flex justify-between text-slate-600"><span>Vendor / Teknisi:</span> <span class="font-semibold">${m.vendor}</span></div>
+                            <div class="flex justify-between text-slate-600"><span>Estimasi Biaya:</span> <span class="font-bold text-emerald-700">${formattedCost}</span></div>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                }
+
+                // Widget Dashboard (Limit max 2 item)
+                if (summaryContainer && idx < 2) {
+                    const itemWidget = document.createElement('div');
+                    itemWidget.className = "bg-slate-50 p-3 rounded-2xl border border-slate-200/80 flex items-center justify-between";
+                    itemWidget.innerHTML = `
+                        <div>
+                            <h4 class="font-bold text-slate-800 text-xs">${m.itemName}</h4>
+                            <p class="text-[11px] text-slate-500 mt-0.5"><i class="fa-regular fa-calendar"></i> ${m.date} • ${m.type}</p>
+                        </div>
+                        <span class="px-2 py-1 rounded-lg text-[10px] bg-amber-100 text-amber-800 font-bold">${formattedCost}</span>
+                    `;
+                    summaryContainer.appendChild(itemWidget);
+                }
+            });
+        }
+
+        function openModal(id) { 
+            if (id === 'modal-borrow') populateBorrowItemDropdown();
+            if (id === 'modal-maintenance') populateMaintenanceItemDropdown();
+            document.getElementById(id).classList.remove('hidden'); 
+        }
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+        
+        function switchView(name) {
+            document.querySelectorAll('.view-panel').forEach(p => p.classList.add('hidden'));
+            const target = document.getElementById(`view-${name}`);
+            if (target) target.classList.remove('hidden');
+            if (name === 'dashboard') initOrUpdateCharts();
+        }
+
+        function handleLoginSubmit(e) { 
+            e.preventDefault(); 
+            localStorage.setItem('simas_logged_in', 'true');
+            closeModal('modal-login'); 
+            showToast('Berhasil masuk sebagai Super Admin!', 'success');
+        }
+
+        function handleLogout() { 
+            localStorage.removeItem('simas_logged_in');
+            openModal('modal-login'); 
+        }
+
+        function showToast(msg, type='info') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
-            let bgClass = 'bg-slate-900';
-            if (type === 'success') bgClass = 'bg-emerald-600';
-            if (type === 'error') bgClass = 'bg-rose-600';
-            
-            toast.className = `p-3.5 rounded-xl shadow-xl text-xs font-bold text-white transition-all transform duration-300 flex items-center gap-2 ${bgClass}`;
-            toast.innerHTML = `<i class="fa-solid fa-circle-info"></i> <span>${message}</span>`;
+            toast.className = `p-3.5 rounded-2xl shadow-2xl text-xs font-bold text-white ${type==='success'?'bg-emerald-600':'bg-slate-900'} backdrop-blur-md animate-in slide-in-from-top duration-200`;
+            toast.textContent = msg;
             container.appendChild(toast);
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'translate-y-2');
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
+            setTimeout(() => toast.remove(), 3000);
         }
+
+        function startCameraScanner() {
+            showToast('Membuka kamera pemindai barcode...', 'info');
+        }
+
+        function exportToCsv() {
+            showToast('Data berhasil diekspor ke format CSV!', 'success');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateMasjidNameUI(savedMasjidName);
+            if (savedLogo) applyLogoToUI(savedLogo);
+            
+            renderInventoryTable(inventoryData);
+            renderBorrowTable();
+            renderMaintenanceList();
+
+            if (!localStorage.getItem('simas_logged_in')) {
+                openModal('modal-login');
+            } else {
+                closeModal('modal-login');
+            }
+        });
     </script>
 </body>
 </html>

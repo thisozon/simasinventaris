@@ -3,11 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <!-- Web App & Mobile Meta Tags -->
+    
+    <!-- PWA & Mobile Web App Meta Tags (Menghilangkan Tab/URL Bar Browser) -->
     <meta name="theme-color" content="#047857">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SIMAS Masjid">
+    <meta name="application-name" content="SIMAS Masjid">
+    
+    <!-- Web Manifest Inline via Data URI (Standalone PWA Mode) -->
+    <link rel="manifest" href='data:application/manifest+json,{"name":"SIMAS - Inventaris Masjid","short_name":"SIMAS","start_url":".","display":"standalone","background_color":"#0f172a","theme_color":"#047857","icons":[{"src":"https://cdn-icons-png.flaticon.com/512/2972/2972531.png","sizes":"512x512","type":"image/png"}]}'>
+
     <title>SIMAS - Sistem Informasi Inventaris Masjid</title>
     
     <!-- Tailwind CSS CDN -->
@@ -88,8 +95,9 @@
     <aside class="hidden md:flex flex-col w-64 bg-slate-900 text-slate-300 min-h-screen shrink-0 border-r border-slate-800 sticky top-0 h-screen z-30">
         <!-- Logo Header -->
         <div class="p-5 border-b border-slate-800 flex items-center gap-3">
-            <div id="sidebar-logo-container" class="w-10 h-10 rounded-xl bg-mosque-700 flex items-center justify-center text-white font-bold text-xl overflow-hidden shadow-lg shadow-mosque-900/50">
-                <i class="fa-solid fa-mosque"></i>
+            <div id="sidebar-logo-container" class="w-10 h-10 rounded-xl bg-mosque-700 flex items-center justify-center text-white font-bold text-xl overflow-hidden shadow-lg shadow-mosque-900/50 shrink-0">
+                <i id="sidebar-logo-icon" class="fa-solid fa-mosque"></i>
+                <img id="sidebar-logo-img" src="" class="w-full h-full object-cover hidden">
             </div>
             <div class="overflow-hidden">
                 <h1 id="sidebar-masjid-name" class="font-bold text-white text-base leading-tight truncate">Masjid Al-Barkah</h1>
@@ -145,8 +153,9 @@
                     <p class="text-[10px] text-slate-400 truncate">Pengurus DKM</p>
                 </div>
             </div>
-            <button onclick="openModal('modal-login')" class="text-slate-400 hover:text-rose-400 p-1.5 rounded-lg transition" title="Logout / Ganti Sesi">
+            <button onclick="handleLogout()" class="text-slate-400 hover:text-rose-400 p-2 rounded-xl hover:bg-rose-500/10 transition flex items-center gap-1.5" title="Logout Sesi">
                 <i class="fa-solid fa-right-from-bracket text-sm"></i>
+                <span class="text-xs font-semibold hidden lg:inline">Keluar</span>
             </button>
         </div>
     </aside>
@@ -154,16 +163,17 @@
     <!-- ========================================== -->
     <!-- MAIN CONTENT CONTAINER                     -->
     <!-- ========================================== -->
-    <div class="flex-1 flex flex-col min-w-0 min-h-screen pb-20 md:pb-6">
+    <div class="flex-1 flex flex-col min-w-0 min-h-screen">
 
         <!-- Mobile Top App Bar -->
         <header class="flex md:hidden items-center justify-between bg-slate-900 text-white px-4 py-3 sticky top-0 z-30 shadow-md">
-            <div class="flex items-center gap-2.5">
-                <div id="mobile-logo-container" class="w-8 h-8 rounded-lg bg-mosque-700 flex items-center justify-center text-white text-sm font-bold overflow-hidden">
-                    <i class="fa-solid fa-mosque"></i>
+            <div class="flex items-center gap-2.5 overflow-hidden">
+                <div id="mobile-logo-container" class="w-8 h-8 rounded-lg bg-mosque-700 flex items-center justify-center text-white text-sm font-bold overflow-hidden shrink-0">
+                    <i id="mobile-logo-icon" class="fa-solid fa-mosque"></i>
+                    <img id="mobile-logo-img" src="" class="w-full h-full object-cover hidden">
                 </div>
-                <div>
-                    <h1 id="mobile-masjid-name" class="font-bold text-sm leading-tight">Masjid Al-Barkah</h1>
+                <div class="overflow-hidden">
+                    <h1 id="mobile-masjid-name" class="font-bold text-sm leading-tight truncate">Masjid Al-Barkah</h1>
                     <p class="text-[10px] text-emerald-400">SIMAS Mobile</p>
                 </div>
             </div>
@@ -171,14 +181,14 @@
                 <button onclick="startCameraScanner()" class="w-9 h-9 rounded-xl bg-mosque-600 text-white flex items-center justify-center active:scale-95 transition shadow">
                     <i class="fa-solid fa-qrcode text-base"></i>
                 </button>
-                <button onclick="openModal('modal-login')" class="w-9 h-9 rounded-xl bg-slate-800 text-slate-300 flex items-center justify-center active:scale-95 transition">
-                    <i class="fa-solid fa-user text-sm"></i>
+                <button onclick="handleLogout()" class="w-9 h-9 rounded-xl bg-rose-500/20 border border-rose-500/30 text-rose-300 flex items-center justify-center active:scale-95 transition" title="Logout">
+                    <i class="fa-solid fa-right-from-bracket text-sm"></i>
                 </button>
             </div>
         </header>
 
-        <!-- Main Body Scrollable View Area -->
-        <main class="flex-1 p-4 md:p-8 max-w-7xl w-full mx-auto space-y-6">
+        <!-- Main Body Scrollable View Area (Padding Bottom Diperluas agar Konten Bawah Tidak Terpotong) -->
+        <main class="flex-1 p-4 md:p-8 max-w-7xl w-full mx-auto space-y-6 pb-36 md:pb-12">
 
             <!-- 1. VIEW DASHBOARD -->
             <section id="view-dashboard" class="view-panel space-y-6">
@@ -187,7 +197,7 @@
                     <div class="space-y-1">
                         <span class="inline-block px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-emerald-200 text-xs font-semibold">Ringkasan Sistem SIMAS</span>
                         <h2 class="text-2xl font-extrabold tracking-tight">Selamat Datang, Pengurus DKM</h2>
-                        <p class="text-emerald-100/80 text-xs md:text-sm">Pantau kondisi aset, status peminjaman, dan kebutuhan servis inventaris masjid.</p>
+                        <p class="text-emerald-100/80 text-xs md:text-sm">Pantau kondisi aset, status peminjaman, dan kebutuhan servis inventaris <span id="banner-masjid-name">Masjid Al-Barkah</span>.</p>
                     </div>
                     <div class="flex items-center gap-2 shrink-0">
                         <button onclick="openModal('modal-add-item')" class="px-4 py-2.5 bg-white text-mosque-800 hover:bg-emerald-50 font-bold rounded-xl text-xs flex items-center gap-2 shadow-lg transition">
@@ -272,7 +282,7 @@
                 </div>
 
                 <!-- Recent Borrowings & Maintenance Preview -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-6">
                     <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
                         <div class="flex items-center justify-between">
                             <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
@@ -317,7 +327,7 @@
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
                         <h2 class="text-xl font-extrabold text-slate-800">Daftar Data Barang</h2>
-                        <p class="text-xs text-slate-500">Kelola master inventaris fisik masjid Al-Barkah.</p>
+                        <p class="text-xs text-slate-500">Kelola master inventaris fisik <span class="label-display-masjid">Masjid Al-Barkah</span>.</p>
                     </div>
                     <div class="flex items-center gap-2">
                         <button onclick="exportToCsv()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs flex items-center gap-2 shadow-md transition">
@@ -447,7 +457,7 @@
                     </button>
                 </div>
 
-                <div id="maintenance-list-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div id="maintenance-list-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pb-8">
                     <!-- Dynamic -->
                 </div>
             </section>
@@ -486,7 +496,7 @@
                         <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-3">
                             <div class="flex items-center justify-between border-b border-slate-100 pb-3">
                                 <div>
-                                    <h4 class="font-extrabold text-slate-800 text-sm">Masjid Al-Barkah - Laporan Rekapitulasi Inventaris</h4>
+                                    <h4 class="font-extrabold text-slate-800 text-sm"><span class="label-display-masjid">Masjid Al-Barkah</span> - Laporan Rekapitulasi Inventaris</h4>
                                     <p class="text-xs text-slate-500">Nomor Registrasi Dokumen: <span class="font-mono font-bold text-slate-700">DKM-INV/2026/XI/001</span></p>
                                 </div>
                                 <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-lg">Status: Valid</span>
@@ -499,16 +509,30 @@
                 </div>
             </section>
 
-            <!-- 6. VIEW PENGATURAN ADMIN & LOGO -->
+            <!-- 6. VIEW PENGATURAN ADMIN & NAMA MASJID -->
             <section id="view-pengaturan" class="view-panel hidden space-y-6">
                 <div>
                     <h2 class="text-xl font-extrabold text-slate-800">Pengaturan Sistem & Pengurus</h2>
-                    <p class="text-xs text-slate-500">Kelola identitas masjid, ekspor data, dan hak akses admin.</p>
+                    <p class="text-xs text-slate-500">Kelola nama masjid, logo resmi, ekspor data, dan hak akses admin.</p>
+                </div>
+
+                <!-- Form Penggantian Nama Masjid -->
+                <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm space-y-4">
+                    <h3 class="font-bold text-slate-800 text-sm pb-2 border-b border-slate-100">Identitas Nama Masjid</h3>
+                    <form onsubmit="handleSaveMasjidName(event)" class="space-y-3 text-xs max-w-lg">
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">Nama Masjid Resmi *</label>
+                            <input type="text" id="setting-masjid-name" required placeholder="Contoh: Masjid Al-Barkah" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-800 focus:ring-2 focus:ring-mosque-600">
+                        </div>
+                        <button type="submit" class="px-4 py-2 bg-mosque-600 hover:bg-mosque-700 text-white font-bold rounded-xl transition shadow">
+                            Simpan Perubahan Nama
+                        </button>
+                    </form>
                 </div>
 
                 <!-- Logo Upload & Identitas Masjid -->
                 <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm space-y-4">
-                    <h3 class="font-bold text-slate-800 text-sm pb-2 border-b border-slate-100">Profil & Logo Masjid</h3>
+                    <h3 class="font-bold text-slate-800 text-sm pb-2 border-b border-slate-100">Logo Resmi Masjid</h3>
                     <div class="flex flex-col md:flex-row items-center gap-6">
                         <div class="w-24 h-24 rounded-2xl border-2 border-dashed border-slate-300 flex items-center justify-center bg-slate-50 overflow-hidden shrink-0 relative group">
                             <img id="logo-preview-img" src="" class="w-full h-full object-cover hidden">
@@ -527,7 +551,7 @@
                 <!-- Quick Export Excel Tool -->
                 <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm flex items-center justify-between">
                     <div>
-                        <h3 class="font-bold text-slate-800 text-sm">Backup / Backup Data Inventaris</h3>
+                        <h3 class="font-bold text-slate-800 text-sm">Backup / Ekspor Data Inventaris</h3>
                         <p class="text-xs text-slate-400">Unduh seluruh catatan barang masjid dalam bentuk file spreadsheet CSV/Excel.</p>
                     </div>
                     <button onclick="exportToCsv()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs flex items-center gap-2 transition shadow">
@@ -596,42 +620,38 @@
     <!-- ALL INTERACTIVE MODALS                     -->
     <!-- ========================================== -->
 
-    <!-- 1. LOGIN SUPER ADMIN MODAL -->
-    <div id="modal-login" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <!-- 1. LOGIN SUPER ADMIN OVERLAY (LOCK SCREEN SANGAT AMAN) -->
+    <div id="modal-login" class="fixed inset-0 bg-slate-950 z-50 flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-md rounded-3xl p-6 shadow-2xl space-y-5">
             <div class="text-center space-y-2">
                 <div class="w-16 h-16 rounded-2xl bg-mosque-700 mx-auto flex items-center justify-center text-white text-2xl font-bold overflow-hidden shadow-lg shadow-mosque-900/30">
                     <img id="login-logo-img" src="" class="w-full h-full object-cover hidden">
                     <i id="login-logo-icon" class="fa-solid fa-mosque"></i>
                 </div>
-                <h3 class="font-extrabold text-slate-800 text-xl">Login Super Admin</h3>
-                <p class="text-xs text-slate-500">Masuk untuk mengelola data inventaris masjid Al-Barkah.</p>
+                <h3 class="font-extrabold text-slate-800 text-xl">Masuk Sistem SIMAS</h3>
+                <p class="text-xs text-slate-500">Silakan login untuk mengelola inventaris <span class="label-display-masjid">Masjid Al-Barkah</span>.</p>
             </div>
 
             <form onsubmit="handleLoginSubmit(event)" class="space-y-4 text-xs">
                 <div>
-                    <label class="block font-bold text-slate-700 mb-1">Username / Email</label>
-                    <input type="text" id="login-username" value="admin" required class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-mosque-600 font-medium">
+                    <label class="block font-bold text-slate-700 mb-1">Username / Email Super Admin</label>
+                    <input type="text" id="login-username" required placeholder="Masukkan username admin" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-mosque-600 font-semibold text-slate-800">
                 </div>
 
                 <div>
                     <label class="block font-bold text-slate-700 mb-1">Password</label>
                     <div class="relative">
-                        <input type="password" id="login-password" value="admin123" required class="w-full pl-3.5 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-mosque-600 font-medium">
+                        <input type="password" id="login-password" required placeholder="Masukkan password" class="w-full pl-3.5 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-mosque-600 font-semibold text-slate-800">
                         <button type="button" onclick="togglePasswordVisibility('login-password', 'eye-login')" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
                             <i id="eye-login" class="fa-solid fa-eye text-sm"></i>
                         </button>
                     </div>
                 </div>
 
-                <div class="flex items-center justify-between text-[11px] text-slate-500">
-                    <span>Default: <code class="bg-slate-100 px-1 py-0.5 rounded font-bold">admin / admin123</code></span>
-                    <a href="#" onclick="showToast('Hubungi Ketua DKM untuk reset password.', 'info')" class="text-mosque-600 font-bold hover:underline">Lupa password?</a>
-                </div>
-
-                <div class="pt-2 flex gap-2">
-                    <button type="button" onclick="closeModal('modal-login')" class="w-1/3 py-2.5 bg-slate-100 text-slate-600 font-bold rounded-xl hover:bg-slate-200">Tutup</button>
-                    <button type="submit" class="w-2/3 py-2.5 bg-mosque-600 hover:bg-mosque-700 text-white font-bold rounded-xl shadow-lg shadow-mosque-600/30">Masuk Akun</button>
+                <div class="pt-2">
+                    <button type="submit" class="w-full py-3 bg-mosque-600 hover:bg-mosque-700 text-white font-bold rounded-xl shadow-lg shadow-mosque-600/30 text-sm transition">
+                        Masuk Ke Aplikasi
+                    </button>
                 </div>
             </form>
         </div>
@@ -900,16 +920,13 @@
 
             <!-- Viewport Feed Kamera -->
             <div class="relative w-full h-64 mx-auto bg-slate-950 border-2 border-emerald-500/60 rounded-2xl flex items-center justify-center overflow-hidden shadow-inner">
-                <!-- Video Element -->
                 <video id="qr-video" autoplay playsinline class="w-full h-full object-cover hidden"></video>
 
-                <!-- Static Placeholder Icon if Camera Inactive/Denied -->
                 <div id="qr-camera-placeholder" class="flex flex-col items-center justify-center text-slate-600 space-y-2 p-4">
                     <i class="fa-solid fa-qrcode text-5xl text-slate-700"></i>
                     <p class="text-[11px] text-slate-400">Menginisialisasi Kamera HP...</p>
                 </div>
 
-                <!-- Scanning Reticle & Laser overlay -->
                 <div class="absolute inset-4 border border-emerald-400/40 rounded-xl pointer-events-none">
                     <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-emerald-400"></div>
                     <div class="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-emerald-400"></div>
@@ -938,9 +955,9 @@
             </div>
 
             <div class="p-4 border-2 border-dashed border-slate-300 rounded-2xl bg-slate-50 space-y-2">
-                <div class="flex items-center justify-center gap-1.5 text-mosque-800 font-bold text-xs">
+                <div class="flex items-center justify-center gap-1.5 text-mosque-800 font-bold text-xs uppercase">
                     <i class="fa-solid fa-mosque"></i>
-                    <span id="qr-masjid-label">MASJID AL-BARKAH</span>
+                    <span id="qr-masjid-label" class="label-display-masjid">MASJID AL-BARKAH</span>
                 </div>
                 <div class="w-32 h-32 mx-auto bg-white p-2 rounded-xl shadow-inner border border-slate-200 flex items-center justify-center">
                     <i class="fa-solid fa-qrcode text-7xl text-slate-800"></i>
@@ -1058,9 +1075,9 @@
                     <i class="fa-solid fa-mosque"></i>
                 </div>
                 <div>
-                    <h1 class="text-2xl font-black uppercase text-emerald-900">MASJID AL-BARKAH</h1>
-                    <p class="text-xs text-slate-600 font-medium">Jl. Raya Masjid No. 123, Kel. Sukamaju, Kec. Kebayoran, Jakarta</p>
-                    <p class="text-[11px] text-slate-500">Email: dkm@masjidalbarkah.org • Kontak: (021) 7890-1234</p>
+                    <h1 id="pdf-masjid-title" class="text-2xl font-black uppercase text-emerald-900">MASJID AL-BARKAH</h1>
+                    <p class="text-xs text-slate-600 font-medium">Sistem Informasi Inventaris Resmi DKM</p>
+                    <p class="text-[11px] text-slate-500">Email: dkm@masjid.org • Dokumen Cetak Inventaris</p>
                 </div>
             </div>
             <div class="text-right">
@@ -1120,7 +1137,7 @@
                 <p class="font-bold underline">( Ust. Rahmat Hidayat )</p>
             </div>
             <div>
-                <p class="mb-14">Ketua DKM Masjid Al-Barkah,</p>
+                <p class="mb-14">Ketua DKM <span class="label-display-masjid">Masjid Al-Barkah</span>,</p>
                 <p class="font-bold underline">( H. Ahmad Abdullah )</p>
             </div>
         </div>
@@ -1149,8 +1166,8 @@
         ];
 
         const defaultAdminData = [
-            { id: 1, name: 'H. Ahmad Abdullah', email: 'ahmad@dkm.org', role: 'Super Admin' },
-            { id: 2, name: 'Ust. Rahmat Hidayat', email: 'rahmat@dkm.org', role: 'Petugas Inventaris' }
+            { id: 1, name: 'H. Ahmad Abdullah', email: 'admin', role: 'Super Admin', pass: 'admin123' },
+            { id: 2, name: 'Ust. Rahmat Hidayat', email: 'rahmat@dkm.org', role: 'Petugas Inventaris', pass: '123456' }
         ];
 
         // LOAD FROM LOCALSTORAGE OR FALLBACK TO DEFAULT
@@ -1159,17 +1176,19 @@
         let maintenanceData = JSON.parse(localStorage.getItem('simas_maintenance')) || defaultMaintenanceData;
         let adminData = JSON.parse(localStorage.getItem('simas_admin')) || defaultAdminData;
         let savedLogo = localStorage.getItem('simas_logo') || '';
+        let savedMasjidName = localStorage.getItem('simas_masjid_name') || 'Masjid Al-Barkah';
 
         let chartKondisiObj = null;
         let chartKategoriObj = null;
         let cameraStream = null;
 
-        // AUTOMATIC LOCALSTORAGE PERSISTENCE FUNCTION
+        // SAVE ALL PERSISTENT STORAGE
         function saveAllDataToStorage() {
             localStorage.setItem('simas_inventory', JSON.stringify(inventoryData));
             localStorage.setItem('simas_borrow', JSON.stringify(borrowData));
             localStorage.setItem('simas_maintenance', JSON.stringify(maintenanceData));
             localStorage.setItem('simas_admin', JSON.stringify(adminData));
+            localStorage.setItem('simas_masjid_name', savedMasjidName);
             if (savedLogo) {
                 localStorage.setItem('simas_logo', savedLogo);
             }
@@ -1177,19 +1196,68 @@
 
         // INITIALIZATION
         document.addEventListener('DOMContentLoaded', () => {
+            // Update nama masjid
+            applyMasjidName(savedMasjidName);
+            const settingInput = document.getElementById('setting-masjid-name');
+            if (settingInput) settingInput.value = savedMasjidName;
+
             // Apply saved logo if exists
             if (savedLogo) {
                 applyLogoToUI(savedLogo);
             }
+
+            // Check login status session from LocalStorage
+            const isLoggedIn = localStorage.getItem('simas_is_logged_in') === 'true';
+            if (isLoggedIn) {
+                closeModal('modal-login');
+            } else {
+                openModal('modal-login');
+            }
+
             renderAllViews();
             initCharts();
         });
+
+        // MASJID NAME UPDATER LOGIC
+        function applyMasjidName(name) {
+            savedMasjidName = name;
+            localStorage.setItem('simas_masjid_name', name);
+
+            const sidebarTitle = document.getElementById('sidebar-masjid-name');
+            const mobileTitle = document.getElementById('mobile-masjid-name');
+            const bannerTitle = document.getElementById('banner-masjid-name');
+            const pdfTitle = document.getElementById('pdf-masjid-title');
+
+            if (sidebarTitle) sidebarTitle.textContent = name;
+            if (mobileTitle) mobileTitle.textContent = name;
+            if (bannerTitle) bannerTitle.textContent = name;
+            if (pdfTitle) pdfTitle.textContent = name.toUpperCase();
+
+            document.querySelectorAll('.label-display-masjid').forEach(el => {
+                el.textContent = name;
+            });
+        }
+
+        function handleSaveMasjidName(e) {
+            e.preventDefault();
+            const inputVal = document.getElementById('setting-masjid-name').value.trim();
+            if (inputVal) {
+                applyMasjidName(inputVal);
+                saveAllDataToStorage();
+                showToast('Nama Masjid berhasil diperbarui!', 'success');
+            }
+        }
 
         function applyLogoToUI(src) {
             const logoPreview = document.getElementById('logo-preview-img');
             const logoPlaceholder = document.getElementById('logo-placeholder');
             const loginImg = document.getElementById('login-logo-img');
             const loginIcon = document.getElementById('login-logo-icon');
+
+            const sidebarImg = document.getElementById('sidebar-logo-img');
+            const sidebarIcon = document.getElementById('sidebar-logo-icon');
+            const mobileImg = document.getElementById('mobile-logo-img');
+            const mobileIcon = document.getElementById('mobile-logo-icon');
 
             if (logoPreview && logoPlaceholder) {
                 logoPreview.src = src;
@@ -1200,6 +1268,16 @@
                 loginImg.src = src;
                 loginImg.classList.remove('hidden');
                 loginIcon.classList.add('hidden');
+            }
+            if (sidebarImg && sidebarIcon) {
+                sidebarImg.src = src;
+                sidebarImg.classList.remove('hidden');
+                sidebarIcon.classList.add('hidden');
+            }
+            if (mobileImg && mobileIcon) {
+                mobileImg.src = src;
+                mobileImg.classList.remove('hidden');
+                mobileIcon.classList.add('hidden');
             }
         }
 
@@ -1215,8 +1293,43 @@
             populateMaintenanceItemDropdown();
         }
 
+        // LOGIN & LOGOUT HANDLERS
+        function handleLoginSubmit(e) {
+            e.preventDefault();
+            const u = document.getElementById('login-username').value.trim();
+            const p = document.getElementById('login-password').value.trim();
+
+            const matchAdmin = adminData.find(a => (a.email === u || a.name === u) && a.pass === p);
+
+            if (matchAdmin || (u === 'admin' && p === 'admin123')) {
+                localStorage.setItem('simas_is_logged_in', 'true');
+                localStorage.setItem('simas_current_user', matchAdmin ? matchAdmin.name : 'Super Admin');
+
+                const currentUserEl = document.getElementById('current-user-name');
+                if (currentUserEl) currentUserEl.textContent = matchAdmin ? matchAdmin.name : 'Super Admin';
+
+                closeModal('modal-login');
+                showToast('Login berhasil! Selamat datang kembali.', 'success');
+            } else {
+                showToast('Username atau password salah!', 'error');
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('simas_is_logged_in');
+            localStorage.removeItem('simas_current_user');
+            openModal('modal-login');
+            showToast('Anda telah keluar dari aplikasi.', 'info');
+        }
+
         // NAVIGATION VIEW SWITCHING
         function switchView(viewName) {
+            // Direct lock if not logged in
+            if (localStorage.getItem('simas_is_logged_in') !== 'true') {
+                openModal('modal-login');
+                return;
+            }
+
             document.querySelectorAll('.view-panel').forEach(panel => panel.classList.add('hidden'));
             const target = document.getElementById(`view-${viewName}`);
             if (target) target.classList.remove('hidden');
@@ -1242,6 +1355,9 @@
                 mNav.classList.add('text-mosque-700', 'font-bold');
                 mNav.classList.remove('text-slate-400');
             }
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         // RENDER INVENTORY TABLE
@@ -1422,7 +1538,7 @@
             const mList = document.getElementById('dashboard-maintenance-list');
             if (mList) {
                 mList.innerHTML = '';
-                maintenanceData.slice(0, 2).forEach(m => {
+                maintenanceData.slice(0, 3).forEach(m => {
                     const item = document.createElement('div');
                     item.className = "flex items-center justify-between p-2.5 bg-slate-50 rounded-xl border border-slate-100 text-xs";
                     item.innerHTML = `
@@ -1624,12 +1740,14 @@
         // HANDLERS FOR ADMIN & SYSTEM SETTINGS
         function handleAddAdminSubmit(e) {
             e.preventDefault();
-            adminData.push({
+            const newAdmin = {
                 id: Date.now(),
                 name: document.getElementById('admin-add-nama').value,
                 email: document.getElementById('admin-add-email').value,
+                pass: document.getElementById('admin-add-pass').value,
                 role: document.getElementById('admin-add-role').value
-            });
+            };
+            adminData.push(newAdmin);
             renderAdminTable();
             closeModal('modal-add-admin');
             showToast('Admin baru telah didaftarkan!', 'success');
@@ -1827,12 +1945,6 @@
             }
         }
 
-        function handleLoginSubmit(e) {
-            e.preventDefault();
-            closeModal('modal-login');
-            showToast('Login berhasil sebagai Super Admin', 'success');
-        }
-
         function openModal(id) {
             const modal = document.getElementById(id);
             if (modal) modal.classList.remove('hidden');
@@ -1846,7 +1958,11 @@
         function showToast(message, type = 'info') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
-            toast.className = `p-3 rounded-xl shadow-xl text-xs font-bold text-white transition-all transform duration-300 flex items-center gap-2 ${type === 'success' ? 'bg-emerald-600' : 'bg-slate-900'}`;
+            let bgClass = 'bg-slate-900';
+            if (type === 'success') bgClass = 'bg-emerald-600';
+            if (type === 'error') bgClass = 'bg-rose-600';
+            
+            toast.className = `p-3.5 rounded-xl shadow-xl text-xs font-bold text-white transition-all transform duration-300 flex items-center gap-2 ${bgClass}`;
             toast.innerHTML = `<i class="fa-solid fa-circle-info"></i> <span>${message}</span>`;
             container.appendChild(toast);
             setTimeout(() => {
